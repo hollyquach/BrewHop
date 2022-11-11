@@ -1,6 +1,6 @@
-#API Design
+# API Design
 
-###Home (/)
+### Home (/)
 * Page Overview
     * Show cards with featured breweries
         * Picture of brewery
@@ -39,15 +39,15 @@
         ```
 
 
-###Search Results List (/search)
+### Search Results List (/search)
 
-###Single-Brewery Details (/brewery/detail)
+### Single-Brewery Details (/brewery/detail)
 
-###Sign Up Form
+### Sign Up Form
 
-###Login Form
+### Login Form
 
-###User Favorites List
+### User Favorites List
 
 
 
