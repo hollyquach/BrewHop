@@ -9,38 +9,26 @@
 <br>
 
 * Brewery Data
-    * Database: Open Brewery DB
-    * Endpoint path: https://api.openbrewerydb.org/breweries/random?size=3&country=United%20States
+    * Database: Yelp API
+    * Endpoint parameters: Dictionary of major cities
+    * Endpoint path: https://api.yelp.com/v3/businesses/search?location={city}+{state}+US&categories=breweries&limit=3
     * Endpoint method: GET
-    * Response: Brewery data details
+    * Response: List of breweries in featured major city
 
     * Response shape:
         ```json
-        {
+      {
+        "businesses": [
+          {
+            "id": string,
             "name": string,
-            "city": string,
-            "state": string
-        }
+            "image_url": string
+          },
+          ...
+        ]
+      }
         ```
 <br>
-
-* Brewery Picture
-    * _Still figuring out this piece as we need to explore how to map a result in OBDB to a result in Google_
-    * Open Brewery API will return specific breweries and here we will map this brewery to a search in the Google Places API to fetch richer data on that specific location. From these results we can extract an image URL for that place.
-    <br/>
-
-    * Database: Google Places
-    * Endpoint path:
-    * Endpoint method: GET
-    * Response: Brewery data details with image
-
-    * Response shape:
-        ```json
-        {
-          "place_id": String,
-          "Picture URL": String,
-        }
-        ```
 
 ### Search Results List (/search)
 * Page Overview
@@ -54,54 +42,33 @@
 <br>
 
 * Brewery Data
-    * Database: Open Brewery DB
-    * Endpoint path: TBD
+    * Database: Yelp API
+    * Endpoint path: https://api.yelp.com/v3/businesses/search?location={city}+{state}+US&categories=breweries
     * Endpoint method: GET
-    * Response: Brewery data details
+    * Response: List of breweries in city, state searched
 
     * Response shape:
         ```json
-        {
-          "name": String,
-          (some piece of the response for matching with Places API, TBD),
-          "brewery_type": String
-        }
+      {
+        "businesses": [
+          {
+            "id": string,
+            "name": string,
+            "coordinates.latitude": decimal,
+            "coordinates.longitude": decimal
+          },
+          ...
+        ]
+      }
         ```
 <br>
 
 * Favorites Data
     * Database: BrewHop Backend (FastAPI)
-    * Endpoint path: TBD
+    * Endpoint path: /favorites
     * Endpoint method: GET, POST, DELETE
-    * Response: User profile details
-
-    * Response shape:
-        ```json
-        There is a table containing user id's and brewery id's.
-        When user logs in we filter by user id. For filtered entries
-        in the table, if brewery id matches id of brewery in the search
-        results list, star is highlighted.
-
-        {
-          "User ID": Integer,
-          "Brewery ID": Integer
-        }
-        ```
-<br>
-
-* Stretch: Richer Data and Mapping
-    * Database: Google Places API
-    * Endpoint path: TBD
-    * Endpoint method: GET
-    * Response: Brewery Details
-
-    * Response shape:
-        ```json
-        {
-          "Description": String,
-          (Map Data)
-        }
-        ```
+    * Response: List of favorites for logged-in user
+    * Response shape defined below in _favorites_ section
 <br>
 
 ### Single-Brewery Details (/brewery/detail)
@@ -113,43 +80,46 @@
 
 * Favorites Data
     * Database: BrewHop Backend (FastAPI)
-    * Endpoint path: TBD
-    * Endpoint method: GET, POST, DELETE (in fastapi these will be different endpoints)
-    * Response: User profile details
-
-    * Response shape:
-        ```json
-        There is a table containing user id's and brewery id's.
-        When user logs in we filter by user id. For filtered entries
-        in the table, if brewery id matches id of brewery in the search
-        results list, star is highlighted.
-
-        {
-          "User ID": Integer,
-          "Brewery ID": Integer
-        }
-        ```
+    * Endpoint path: /favorites
+    * Endpoint method: GET, POST, DELETE
+    * Response: List of favorites for logged-in user
+    * Response shape defined below in _favorites_ section
 <br>
 
-* Stretch: Richer Data and Mapping
-    * Database: Google Places API
-    * Endpoint path: TBD
+* Brewery Detailed Data
+    * Database: Yelp API
+    * Endpoint path: https://api.yelp.com/v3/businesses/{id}
     * Endpoint method: GET
     * Response: Brewery Details
 
     * Response shape:
         ```json
         {
-          "place_id": String,
-          "name": String,
-          "Picture URL": String,
-          "formatted_address": String,
-          "formatted_phone_number": String,
-          "editorial_summary": String,
-          "website": String,
-          "opening_hours": PlaceOpeningHours,
+          "id": string,
+          "name": string,
+          "image_url": string,
+          "location": {
+            "address1": string,
+            "city": string,
+            "zip_code": string,
+            "country": string,
+            "state": string,
+          },
+          "display_phone": string,
+          "open": [
+            {
+              "is_overnight": false,
+              "start": string,
+              "end": string,
+              "day": int
+            },
+            ...
+          ],
           "location": LatLngLiteral,
-          (Map Data)
+          "coordinates": {
+            "latitude": decimal,
+            "longitude": decimal
+          },
         }
         ```
 <br>
@@ -164,17 +134,17 @@
 
 * User Data
     * Database: BrewHop Backend (FastAPI)
-    * Endpoint path: TBD
+    * Endpoint path: /user
     * Endpoint method: POST
     * Response: User profile details
 
     * Response shape:
         ```json
         {
-          "first_name": String,
-          "last_name": String,
-          "email_address": String,
-          "password": String
+          "first_name": string,
+          "last_name": string,
+          "email_address": string,
+          "password": string
         }
         ```
 <br>
@@ -188,7 +158,7 @@
 
 * User Data
     * Database: BrewHop Backend (FastAPI)
-    * Endpoint path: TBD
+    * Endpoint path: /user
     * Endpoint method: POST, GET
     * Response: User profile details
 
@@ -202,3 +172,18 @@
 <br>
 
 ### User Favorites List
+* Favorites Data
+    * Database: BrewHop Backend (FastAPI)
+    * Endpoint path: /favorites
+    * Endpoint method: GET, DELETE
+    * Response: Brewery favorites per logged-in user
+
+    * Response shape:
+        ```json
+        {
+          "pk": serial,
+          "user": int,
+          "yelp_id": string
+        }
+        ```
+<br>
