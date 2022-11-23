@@ -23,7 +23,7 @@ services:
       - ./favorites_service:/app
     environment:
       DATABASE_URL: postgres://users:password@postgres:5432/users
-      WAIT_HOSTS: postgres:5432 
+      WAIT_HOSTS: postgres:5432
   yelp_api:
     build:
       context: yelp_api_service
