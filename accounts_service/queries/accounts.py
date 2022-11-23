@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from queries.pool import pool
 from typing import List, Union, Optional
 
@@ -8,7 +8,7 @@ class Error(BaseModel):
 class AccountsIn(BaseModel):
     first_name: str
     last_name: str
-    email: str
+    email: EmailStr
     password: str
 
 class AccountsOut(BaseModel):
@@ -16,7 +16,7 @@ class AccountsOut(BaseModel):
     first_name: str
     last_name: str
     email: str
-    password: str
+
 
 class AccountsRepository:
     def get_one(self, accounts_id: int) -> Optional[AccountsOut]:
@@ -38,6 +38,7 @@ class AccountsRepository:
         except Exception as e:
             print(e)
             return {"message": "Could not get that accounts"}
+
 
     def get_all(self) -> Union[Error, List[AccountsOut]]:
         try:
