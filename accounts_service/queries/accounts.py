@@ -5,6 +5,9 @@ from typing import List, Union, Optional
 class Error(BaseModel):
     message: str
 
+# class DuplicateAccountError(ValueError):
+#     pass
+
 class AccountsIn(BaseModel):
     first_name: str
     last_name: str
@@ -16,6 +19,9 @@ class AccountsOut(BaseModel):
     first_name: str
     last_name: str
     email: str
+
+# class AccountsOutWithPasswords(AccountsOut):
+#     hashed_password: str
 
 
 class AccountsRepository:
