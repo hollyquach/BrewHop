@@ -11,6 +11,7 @@ services:
     volumes:
       - ./accounts_service:/app
     environment:
+      SIGNING_KEY: 3b66b02a79937a98b07f7ad83004a8575d9eb300463ca546d035a346f5997d16
       DATABASE_URL: postgres://users:password@postgres:5432/users
       WAIT_HOSTS: postgres:5432
   favorites:
