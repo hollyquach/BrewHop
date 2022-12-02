@@ -37,7 +37,7 @@ def yelprequest(url, url_params):
 @router.get("/api/breweries", response_model=BreweriesList)
 async def get_brewery_list(
     # search by city/state inputs from user
-        city: str, 
+        city: str,
         state: str,
     ):
     '''
@@ -107,7 +107,7 @@ async def get_featured():
     }
 
     result = yelprequest(url, url_params)
-    
+
     # parsing return data to include location & required info
     result = FeaturedList.parse_obj(result).dict()
     result = {
@@ -137,7 +137,7 @@ async def get_brewery_detail(yelp_id: str):
     '''
 
     url = f'{API_HOST}{BUSINESS_PATH}{yelp_id}'
-    
+
     result = yelprequest(url, url_params=None)
 
     # convert format of hours from return to a list of strings of open hours for each day
