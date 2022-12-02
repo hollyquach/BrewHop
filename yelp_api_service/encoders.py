@@ -56,5 +56,4 @@ def convert_hours(day_hours):
     weekday = days[day_hours['day']]
     start = time.strftime('%I:%M %p', time.strptime(day_hours['start'], '%H%M'))
     end = time.strftime('%I:%M %p', time.strptime(day_hours['end'], '%H%M'))
-    print(f'📆📆📆\n{weekday}: {start} - {end}')
     return f'{weekday}: {start} - {end}'

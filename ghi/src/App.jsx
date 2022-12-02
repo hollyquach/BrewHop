@@ -1,17 +1,14 @@
 import { useEffect, useState } from 'react';
-import Construct from './Construct.js'
-import ErrorNotification from './ErrorNotification';
 import {Route, Routes} from 'react-router-dom'
 import './App.css';
-import Featured from './Router/Featured'
+import Featured from './Router/Featured/Featured.jsx'
 import Layout from './Router/Layout'
 import Results from './Router/Results';
 import Favorites from './Router/Favorites.jsx';
-import Brewery from './Router/Brewery.jsx';
+import Brewery from './Router/BreweryDetails/Brewery'
 import Invalid from './Router/Invalid.jsx';
 
 function App() {
-
   const [ searchCity, setSearchCity ] = useState('') // search param - user input in search form -> results
   const [ searchState, setSearchState ] = useState('') // search param - user input in search form -> results
   const [ userID, setUserID ] = useState('') // int of userID
@@ -56,7 +53,7 @@ function App() {
           <Route index element={<Featured />} />
           <Route path="search/" element={<Results />} />
           <Route path="favorites/" element={<Favorites />} />
-          <Route path="brewery/" element={<Brewery />} />
+          <Route path="brewery/" element={<Brewery yelpID={breweryYelpID} />} />
           <Route path="*" element={<Invalid />} />
         </Route>
       </Routes>
