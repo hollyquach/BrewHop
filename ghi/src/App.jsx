@@ -8,12 +8,14 @@ import Favorites from './Router/Favorites.jsx';
 import Brewery from './Router/BreweryDetails/Brewery'
 import Invalid from './Router/Invalid.jsx';
 
-function App() {
+export default function App() {
   const [ searchCity, setSearchCity ] = useState('') // search param - user input in search form -> results
   const [ searchState, setSearchState ] = useState('') // search param - user input in search form -> results
   const [ userID, setUserID ] = useState('') // int of userID
   const [ userFavorites, setUserFavorites ] = useState([]) // list of yelp_ids -> user's favorited breweries
   const [ breweryYelpID, setBreweryYelpID ] = useState('') // string of a single yelp ID
+  const [loginStatus, setLoginStatus] = useState(false)
+  const [userName, setUserName] = useState('')
   //?? add state for userJWT token
 
 
@@ -49,9 +51,18 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Layout />} >
+        <Route path="/" element={<Layout
+          setSearchCity={setSearchCity}
+          setSearchState={setSearchState}
+          loginStatus={loginStatus}
+          setLoginStatus={setLoginStatus}
+          userName={userName}
+        />} >
           <Route index element={<Featured />} />
-          <Route path="search/" element={<Results />} />
+          <Route path="search/" element={<Results
+            searchCity={searchCity}
+            searchState={searchState}
+          />} />
           <Route path="favorites/" element={<Favorites />} />
           <Route path="brewery/" element={<Brewery yelpID={breweryYelpID} />} />
           <Route path="*" element={<Invalid />} />
@@ -60,5 +71,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

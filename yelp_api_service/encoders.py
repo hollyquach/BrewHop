@@ -4,7 +4,7 @@ import time
 
 # Home Page Return
 class FeaturedLsItem(BaseModel):
-    id: str # yelp_id -> 
+    id: str # yelp_id ->
     name: str
     image_url: AnyUrl
     # location: LocationLst
