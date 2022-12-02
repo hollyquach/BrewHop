@@ -1,0 +1,17 @@
+.featured {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    align-content: space-around;
+
+
+    .card1,
+    .card2,
+    .card3 {
+        padding: 12px;
+
+        &:hover {
+            opacity: 0.75;
+        }
+    }
+}
