@@ -1,4 +1,4 @@
-/* .App {
+.App {
   text-align: center;
   display: flex;
   min-height: 100vh;
@@ -8,7 +8,7 @@
   background-image: linear-gradient(79deg, #7439db, #C66FBC 48%, #F7944D);
 }
 
-.auth-form-container, .login-form, .register-form {
+.login-form, .register-form {
   display: flex;
   flex-direction: column;
 }
@@ -47,4 +47,4 @@ button {
   background: none;
   color: white;
   text-decoration: underline;
-} */
+}

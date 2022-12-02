@@ -1,26 +1,52 @@
+import { useToken } from "./useToken";
+import {useAuthContext} from './useToken';
 import React, { useState } from "react";
 
-export const Login = (props) => {
-    const [email, setEmail] = useState('');
-    const [pass, setPass] = useState('');
+function BootstrapInput(props) {
+    const { id, placeholder, labelText, value, onChange, type } = props;
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(email);
-    }
-
-    return (
-        <div className="auth-form-container">
-            <h2>Login</h2>
-            <form className="login-form" onSubmit={handleSubmit}>
-                <label htmlFor="email">email</label>
-                <input value={email} onChange={(e) => setEmail(e.target.value)}type="email" placeholder="youremail@gmail.com" id="email" name="email" />
-                <label htmlFor="password">password</label>
-                <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password" />
-                <button type="submit">Log In</button>
-            </form>
-            <button className="link-btn" onClick={() => props.onFormSwitch('register')}>Don't have an account? Register here.</button>
-        </div>
-    )
+  return (
+    <div className="mb-3">
+        <label htmlFor={id} className="form-label">{labelText}</label>
+        <inpit value={value} onChange={onChange} required type={type} className="form-control" id={id} placeholder={placeholder} />
+    </div>
+  )
 }
 
+function Login(props) {
+  const [token, login] = useToken();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    login("420@gmail.com", "123");
+  };
+
+    return (
+        <div>
+            <form className="register-form" onSubmit={handleSubmit}>
+                <BootstrapInput 
+                    id="email"
+                    placeholder="name@example.com"
+                    labelText="Your email address"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    type="email" />
+                <BootstrapInput 
+                    id="password"
+                    placeholder="password"
+                    labelText="password"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    type="password" />
+                <button type="submit" className="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    );
+}
+
+
+export default Login;

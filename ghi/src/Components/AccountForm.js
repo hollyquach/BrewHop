@@ -1,7 +1,4 @@
-import { useToken } from "./useToken";
-import {useAuthContext} from './useToken';
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { useState } from "react";
 
 function BootstrapInput(props) {
     const { id, placeholder, labelText, value, onChange, type } = props;
@@ -12,22 +9,18 @@ function BootstrapInput(props) {
         <input value={value} onChange={onChange} required type={type} className="form-control" id={id} placeholder={placeholder} />
     </div>
   )
-} 
+}
 
-function Login() {
-  const [token, login] = useToken();
-  const navigate = useNavigate();
+function AccountForm(props) {
+    const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
+    const [password, setPassword] = useState('');
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-
-  const handleSubmit = async e => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        await login(email, password);
-        navigate('/');
-    };
-
+        console.log(email)
+    }
+    
     return (
         <div>
             <form className="register-form" onSubmit={handleSubmit}>
@@ -38,6 +31,13 @@ function Login() {
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     type="email" />
+                <BootstrapInput 
+                    id="name"
+                    placeholder="John Doe"
+                    labelText="Name"
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    type="name" />
                 <BootstrapInput 
                     id="password"
                     placeholder="password"
@@ -50,6 +50,4 @@ function Login() {
         </div>
     );
 }
-
-
-export default Login;
+export default AccountForm
