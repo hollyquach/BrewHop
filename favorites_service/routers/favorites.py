@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from typing import List, Union, Optional
+from typing import List, Union
 from queries.favorites import (
     FavoriteIn,
     FavoriteRepository,
