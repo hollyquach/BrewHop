@@ -3,6 +3,9 @@
 Worked with group to estabished correct API docs, and pushed those to api_docs in main.
 
 <<<<<<< HEAD
+## November 17th
+=======
+<<<<<<< HEAD
 <<<<<<< HEAD
 ## November 17th
 =======
@@ -11,5 +14,6 @@ Worked with group to estabished correct API docs, and pushed those to api_docs i
 =======
 ## November 17th
 >>>>>>> ea603af (Update journals/sean_sainz.md)
+>>>>>>> main
 
 After Andrew's lecture on git, started on this Journal entry to practice with merge requests and managing branches.
