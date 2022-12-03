@@ -49,8 +49,8 @@ services:
       HOST: "0.0.0.0"
       PUBLIC_URL: http://localhost:3000
       ACCOUNTS_SERVICE_API_HOST: http://localhost:8000
-      FAVORITES_SERVICE_API_HOST: http://localhost:8000
-      YELP_API_SERVICE_API_HOST: http://localhost:8000
+      FAVORITES_SERVICE_API_HOST: http://localhost:8001
+      YELP_API_SERVICE_API_HOST: http://localhost:8002
   postgres:
     build:
       context: ./relational-data
