@@ -11,7 +11,7 @@ services:
     volumes:
       - ./accounts_service:/app
     environment:
-      SIGNING_KEY: 3b66b02a79937a98b07f7ad83004a8575d9eb300463ca546d035a346f5997d16
+      SIGNING_KEY: d52298e81cb880a4c73cd7d9eca43f750ad8cd2f4160d03b3105a8671d014428
       DATABASE_URL: postgres://users:password@postgres:5432/users
       WAIT_HOSTS: postgres:5432
   favorites:
@@ -23,18 +23,7 @@ services:
     volumes:
       - ./favorites_service:/app
     environment:
-      DATABASE_URL: postgres://users:password@postgres:5432/users
-      WAIT_HOSTS: postgres:5432
-  favorites:
-    build:
-      context: favorites_service
-      dockerfile: ./Dockerfile.dev
-    ports:
-      - "8001:8000"
-    volumes:
-      - ./favorites_service:/app
-    environment:
-      DATABASE_URL: postgres://users:password@postgres:5432/users
+      DATABASE_URL: postgres://users:password@postgres:5432/favorites
       WAIT_HOSTS: postgres:5432
   yelp_api:
     build:
@@ -60,7 +49,9 @@ services:
       NODE_ENV: development
       HOST: "0.0.0.0"
       PUBLIC_URL: http://localhost:3000
-      REACT_APP_ACCOUNT_SERVICE_API_HOST: http://localhost:8000
+      ACCOUNTS_SERVICE_API_HOST: http://localhost:8000
+      FAVORITES_SERVICE_API_HOST: http://localhost:8001
+      YELP_API_SERVICE_API_HOST: http://localhost:8002
   postgres:
     build:
       context: ./relational-data
