@@ -1,0 +1,29 @@
+[
+    {
+    "city": "Birmingham", 
+    "growth_from_2000_to_2013": "-12.3%", 
+    "latitude": 33.5206608, 
+    "longitude": -86.80248999999999, 
+    "population": "212113", 
+    "rank": "101", 
+    "state": "Alabama"
+    },
+    {
+    "city": "New Orleans", 
+    "growth_from_2000_to_2013": "-21.6%", 
+    "latitude": 29.95106579999999, 
+    "longitude": -90.0715323, 
+    "population": "378715", 
+    "rank": "51", 
+    "state": "Louisiana"
+    },
+    {
+    "city": "St. Paul", 
+    "growth_from_2000_to_2013": "2.8%", 
+    "latitude": 44.9537029, 
+    "longitude": -93.0899578, 
+    "population": "294873", 
+    "rank": "66", 
+    "state": "Minnesota"
+    }
+]

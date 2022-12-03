@@ -1,6 +1,53 @@
-# Module3 Project Gamma
+# 🍻 BrewHop
 
-## Getting started
+BrewHop is a web application to help 21+ customers find breweries in areas around the United States!
+
+### Key Features - 🏅MVP
+1. Search functionality to search for brewery by location
+2. View details about specific breweries from search list
+    - Open hours
+    - Location detail → address & mini map
+    - Phone number
+    - Description
+3. Favorites List -> if user has an account
+    - Starred within details page
+    - Option to remove favorite
+    - Links to brewery detail
+
+---
+## Installation
+### Requirements
+1. Python 3
+2. Docker Desktop
+3. VS Code
+
+[] Install instructions
+
+---
+
+## Design
+- [Data Model](docs/datamodel.md)
+- [GHI](docs/ghi.md)
+- [API Design](docs/api-design.md)
+
+### Configuration
+| Service | Image | Ports |
+| --- | --- | --- |
+| accounts | brew-hop-accounts | 8000 |
+| favorites | brew-hop-accounts | 8001 |
+| yelp_api | brew-hop-accounts | 8002 |
+| ghi | node:lts-bullseye | 3000 |
+| postgres | brew-hop-postgres | 15432 |
+
+---
+
+## Maintainers
+- @hollyquach
+- @jwpettit
+- @Seanii86
+- @thtguy00
+
+<!-- ## Getting started
 
 You have a project repository, now what? The next section
 lists all of the deliverables that are due at the end of the
@@ -144,4 +191,4 @@ in GitLab.
 
 Merge a change into main to kick off the initial deploy. Once the build pipeline
 finishes you should be able to see an "under construction" page on your GitLab
-pages site.
+pages site. -->

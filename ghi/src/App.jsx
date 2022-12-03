@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {Route, Routes} from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import './App.css';
 import Featured from './Router/Featured/Featured.jsx'
 import Layout from './Router/Layout'
@@ -9,11 +9,11 @@ import Brewery from './Router/BreweryDetails/Brewery'
 import Invalid from './Router/Invalid.jsx';
 
 export default function App() {
-  const [ searchCity, setSearchCity ] = useState('') // search param - user input in search form -> results
-  const [ searchState, setSearchState ] = useState('') // search param - user input in search form -> results
-  const [ userID, setUserID ] = useState('') // int of userID
-  const [ userFavorites, setUserFavorites ] = useState([]) // list of yelp_ids -> user's favorited breweries
-  const [ breweryYelpID, setBreweryYelpID ] = useState('') // string of a single yelp ID
+  const [searchCity, setSearchCity] = useState('') // search param - user input in search form -> results
+  const [searchState, setSearchState] = useState('') // search param - user input in search form -> results
+  const [userID, setUserID] = useState('') // int of userID
+  const [userFavorites, setUserFavorites] = useState([]) // list of yelp_ids -> user's favorited breweries
+  const [breweryYelpID, setBreweryYelpID] = useState('') // string of a single yelp ID
   const [loginStatus, setLoginStatus] = useState(false)
   const [userName, setUserName] = useState('')
   const [showLogin, setshowLogin] = useState(false)
@@ -49,7 +49,7 @@ export default function App() {
     }, [])
   */
 
-// [] pass props into components as required
+  // [] pass props into components as required
   return (
     <div>
       <Routes>

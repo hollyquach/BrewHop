@@ -5,12 +5,15 @@ from typing import List, Union, Optional
 class Error(BaseModel):
     message: str
 
+<<<<<<< HEAD
 class Accounts(BaseModel):
     id: int
     first_name: str
     last_name: str
     email: str
     hashed_password: str
+=======
+>>>>>>> main
 class AccountsIn(BaseModel):
     first_name: str
     last_name: str
@@ -22,6 +25,7 @@ class AccountsOut(BaseModel):
     first_name: str
     last_name: str
     email: str
+<<<<<<< HEAD
 
 
 class AccountOutWithPassword(AccountsOut):
@@ -32,20 +36,35 @@ class DuplicateAccountError(ValueError):
 
 class AccountsRepository:
     def get_one(self, email: str) -> Optional[Accounts]:
+=======
+    password: str
+
+class AccountsRepository:
+    def get_one(self, accounts_id: int) -> Optional[AccountsOut]:
+>>>>>>> main
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
+<<<<<<< HEAD
                             SELECT id, first_name, last_name, email, hashed_password
                             FROM accounts
                             WHERE email = %s
                         """,
                         [email]
+=======
+                            SELECT id, first_name, last_name, email, password
+                            FROM accounts
+                            WHERE id = %s
+                        """,
+                        [accounts_id]
+>>>>>>> main
                     )
                     record = result.fetchone()
                     if record is None:
                         return None
+<<<<<<< HEAD
 
                     return Accounts(
                     id=record[0],
@@ -55,6 +74,9 @@ class AccountsRepository:
                     hashed_password=record[4],
                     
                 )
+=======
+                    return self.record_to_accounts_out(record)
+>>>>>>> main
         except Exception as e:
             print(e)
             return {"message": "Could not get that accounts"}
@@ -65,7 +87,11 @@ class AccountsRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
+<<<<<<< HEAD
                             SELECT id, first_name, last_name, email, hashed_password
+=======
+                            SELECT id, first_name, last_name, email, password
+>>>>>>> main
                             FROM accounts
                             ORDER BY last_name;
                         """
@@ -76,7 +102,11 @@ class AccountsRepository:
                             first_name=record[1],
                             last_name=record[2],
                             email=record[3],
+<<<<<<< HEAD
                             hashed_password=record[4],
+=======
+                            password=record[4],
+>>>>>>> main
                         )
                         for record in db
                     ]
@@ -85,13 +115,21 @@ class AccountsRepository:
             return {"message": "Could not get all accounts"}
 
 
+<<<<<<< HEAD
     def create(self, accounts: AccountsIn, hashed_password: str) -> Accounts:
+=======
+    def create(self, accounts: AccountsIn) -> AccountsOut:
+>>>>>>> main
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(
                     """
                     INSERT INTO accounts
+<<<<<<< HEAD
                         (first_name, last_name, email, hashed_password)
+=======
+                        (first_name, last_name, email, password)
+>>>>>>> main
                     VALUES
                         (%s, %s, %s, %s)
                     RETURNING id;
@@ -100,6 +138,7 @@ class AccountsRepository:
                         accounts.first_name,
                         accounts.last_name,
                         accounts.email,
+<<<<<<< HEAD
                         hashed_password
                     ]
                 )
@@ -112,6 +151,14 @@ class AccountsRepository:
                     hashed_password=hashed_password,
                 )
                     
+=======
+                        accounts.password
+                    ]
+                )
+                id = result.fetchone()[0]
+                old_data = accounts.dict()
+                return AccountsOut(id=id, **old_data)
+>>>>>>> main
 
     def delete(self, accounts_id:int) -> bool:
         try:
@@ -129,6 +176,7 @@ class AccountsRepository:
             print(e)
             return False
 
+<<<<<<< HEAD
     # def record_to_accounts_out(self, record):
     #     return AccountsOut(
     #         id=record[0],
@@ -137,3 +185,13 @@ class AccountsRepository:
     #         email=record[3],
     #         hashed_password=record[4],
     #     )
+=======
+    def record_to_accounts_out(self, record):
+        return AccountsOut(
+            id=record[0],
+            first_name=record[1],
+            last_name=record[2],
+            email=record[3],
+            password=record[4],
+        )
+>>>>>>> main
