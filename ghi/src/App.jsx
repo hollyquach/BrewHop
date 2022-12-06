@@ -7,6 +7,7 @@ import Results from './Router/Results';
 import Favorites from './Router/Favorites.jsx';
 import Brewery from './Router/BreweryDetails/Brewery'
 import Invalid from './Router/Invalid.jsx';
+import { useToken } from './Components/useToken.js'
 
 export default function App() {
   const [searchCity, setSearchCity] = useState('') // search param - user input in search form -> results
@@ -22,12 +23,39 @@ export default function App() {
 
   useEffect(() => { setLoginStatus(token ? true : false) }, [token]);
 
-  //?? add state for userJWT token
 
-
-  // [] function to get favorites by user | input user ID, returns list of favorites -> setUserFavorites
   // [] function to update favorites (add or delete)
 
+    const getUserFavorites = async() => {
+        // only runs if user is logged in
+        if (loginStatus) {
+            let url = `${process.env.REACT_APP_FAVORITES_SERVICE_API_HOST}/favorites/${userID}`
+            let config = {
+                method: "GET",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+            }
+            console.info(`🚦⭐️⭐️ QUERYING FAVORITES SERVICE | ${url}`)
+
+            const response = await fetch (url, config);
+            if (response.ok) {
+                let data = await response.json();
+                setUserFavorites(data)
+            } else {
+                console.error(`🛑🛑 ERROR getting user favorites |`, response);
+            } 
+        } else {
+            console.debug(`🚦🚦 getUserFavorites | NOT LOGGED IN`);
+        }
+    }
+
+    useEffect(() => {
+        setUserID(1);
+        getUserFavorites()
+    }, [breweryYelpID]);
+
+    
   // !! from original fork & left for ref only -> remove before deployment
   /*
     const [launch_info, setLaunchInfo] = useState([]);
@@ -54,30 +82,33 @@ export default function App() {
   */
 
   // [] pass props into components as required
-  return (
-    <div>
-      <Routes>
-        <Route path="/" element={<Layout
-          setSearchCity={setSearchCity}
-          setSearchState={setSearchState}
-          loginStatus={loginStatus}
-          setLoginStatus={setLoginStatus}
-          userName={userName}
-          showSignupForm={showSignupForm}
-          setShowSignupForm={setShowSignupForm}
-          showLoginForm={showLoginForm}
-          setShowLoginForm={setShowLoginForm}
-        />} >
-          <Route index element={<Featured setID={setBreweryYelpID} />} />
-          <Route path="search/" element={<Results
-            searchCity={searchCity}
-            searchState={searchState}
-          />} />
-          <Route path="favorites/" element={<Favorites />} />
-          <Route path="brewery/" element={<Brewery yelpID={breweryYelpID} />} />
-          <Route path="*" element={<Invalid />} />
-        </Route>
-      </Routes>
-    </div>
-  );
+    return (
+        <div>
+            <Routes>
+                <Route path="/" element={<Layout
+                    setSearchCity={setSearchCity}
+                    setSearchState={setSearchState}
+                    loginStatus={loginStatus}
+                    setLoginStatus={setLoginStatus}
+                    userName={userName}
+                    showSignupForm={showSignupForm}
+                    setShowSignupForm={setShowSignupForm}
+                    showLoginForm={showLoginForm}
+                    setShowLoginForm={setShowLoginForm}
+                />} >
+                <Route index element={<Featured setID={setBreweryYelpID} />} />
+                <Route path="search/" element={
+                    <Results 
+                    searchCity={searchCity} searchState={searchState}
+                    loginStatus={loginStatus}
+                    userFavorites={userFavorites} setUserFavorites={setUserFavorites}
+                    breweryYelpID={breweryYelpID} setBreweryYelpID={setBreweryYelpID}/>
+                } />
+                <Route path="favorites/" element={<Favorites />} />
+                <Route path="brewery/" element={<Brewery yelpID={breweryYelpID} />} />
+                <Route path="*" element={<Invalid />} />
+                </Route>
+            </Routes>
+        </div>
+    );
 }
