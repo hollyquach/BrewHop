@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom'
-import { useToken } from './Components/useToken.js'
-import './App.css';
+import './App.scss';
 import Featured from './Router/Featured/Featured.jsx'
 import Layout from './Router/Layout'
 import Results from './Router/Results';
@@ -69,7 +68,7 @@ export default function App() {
           showLoginForm={showLoginForm}
           setShowLoginForm={setShowLoginForm}
         />} >
-          <Route index element={<Featured />} />
+          <Route index element={<Featured setID={setBreweryYelpID} />} />
           <Route path="search/" element={<Results
             searchCity={searchCity}
             searchState={searchState}

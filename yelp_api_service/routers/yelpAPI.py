@@ -30,7 +30,6 @@ def yelprequest(url, url_params):
         'Authorization': 'Bearer %s' % api_key,
     }
     response = requests.request('GET', url, headers=headers, params=url_params)
-    print("🚦🚦 QUERYING |", response.url)
     return response.json()
 
 
