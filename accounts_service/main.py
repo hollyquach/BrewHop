@@ -2,15 +2,8 @@ from fastapi import FastAPI
 from router import accounts
 
 from authenticator import authenticator
-from fastapi.middleware.cors import CORSMiddleware
-
-
 
 app = FastAPI()
-origins = [
-    "http://localhost",
-]
-
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -36,7 +29,3 @@ app.add_middleware(
 app.include_router(accounts.router)
 app.include_router(authenticator.router)
 
-
-
-app = FastAPI()
-app.include_router(accounts.router)
