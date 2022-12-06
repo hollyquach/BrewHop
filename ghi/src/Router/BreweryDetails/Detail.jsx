@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import Loader from 'react-loaders';
 
 export default function Detail({ yelpID }) {
     const [brewery, setData] = useState([]);
@@ -8,7 +9,7 @@ export default function Detail({ yelpID }) {
 
     useEffect(() => {
         async function getBreweryDetails() {
-            const url = `http://localhost:8002/api/brewery?yelp_id=${yelpID}`
+            const url = `${process.env.REACT_APP_YELP_API_SERVICE_API_HOST}/api/brewery?yelp_id=${yelpID}`
             const fetchConfig = {
                 method: 'get',
                 headers: {
@@ -69,7 +70,7 @@ export default function Detail({ yelpID }) {
                     </div>
                 </div>
                 :
-                <div>Loading...</div>
+                <Loader type="line-scale-pulse-out" />
             }
         </>
     )

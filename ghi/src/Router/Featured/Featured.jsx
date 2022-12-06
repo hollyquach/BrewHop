@@ -5,15 +5,16 @@ import Card from 'react-bootstrap/Card';
 import Placeholder from 'react-bootstrap/Placeholder';
 import { useNavigate } from 'react-router-dom';
 import './index.scss'
+import Loader from 'react-loaders';
 
-export default function Featured({ setBreweryYelpID }) {
+export default function Featured({ setID }) {
     const [featured, setData] = useState([])
     const [isLoaded, setLoaded] = useState(false)
 
 
     useEffect(() => {
         async function getFeatured() {
-            const url = `http://localhost:8002/api/featured`
+            const url = `${process.env.REACT_APP_YELP_API_SERVICE_API_HOST}/api/featured`
             const fetchConfig = {
                 method: 'get',
                 headers: {
@@ -32,9 +33,8 @@ export default function Featured({ setBreweryYelpID }) {
     }, []);
 
     const navigate = useNavigate()
-
-    const setID = (breweryYelpID) => {
-        setBreweryYelpID(breweryYelpID)
+    const grabID = (id) => {
+        setID(id)
         navigate('/brewery')
     }
 
@@ -42,61 +42,91 @@ export default function Featured({ setBreweryYelpID }) {
         <>
             {isLoaded ?
                 <div className="App">
-                    <body className="App-header">
+                    <div className="App-header">
+                        <h1 className="feature-title">
+                            Check out these featured breweries in
+                            <span> {featured.location}</span>,
+                            <br />
+                            or search in your city above.
+                        </h1>
                         <div className="featured">
                             <div className="card1">
-                                <Card style={{ width: '18rem' }}>
-                                    <Card.Img className="img" variant="top" src={featured.breweries[0].image_url} />
+                                <Card style={{ width: '20rem', height: '30rem' }}>
+                                    <Card.Img
+                                        variant="top"
+                                        src={featured.breweries[0].image_url} />
                                     <Card.ImgOverlay>
                                         <Card.Body>
-                                            <Card.Title className="text-light">{featured.breweries[0].name}</Card.Title>
-                                            <Button variant="primary" onClick={() => setID(featured.breweries[0].id)}>View details</Button>
+
+                                            <Card.Title
+                                                className="title">
+                                                {featured.breweries[0].name}
+                                            </Card.Title>
+
+                                            <Button
+                                                variant="primary"
+                                                onClick={() => grabID(featured.breweries[0].id)}>
+                                                View details
+                                            </Button>
+
                                         </Card.Body>
                                     </Card.ImgOverlay>
                                 </Card>
                             </div>
                             <div className="card2">
-                                <Card style={{ width: '18rem' }}>
-                                    <Card.Img className="img" variant="top" src={featured.breweries[1].image_url} />
+                                <Card style={{ width: '20rem', height: '30rem' }}>
+                                    <Card.Img
+                                        variant="top"
+                                        src={featured.breweries[1].image_url} />
                                     <Card.ImgOverlay>
                                         <Card.Body>
-                                            <Card.Title className="text-light">{featured.breweries[1].name}</Card.Title>
-                                            <Button variant="primary" onClick={() => setID(featured.breweries[1].id)}>View details</Button>
+
+                                            <Card.Title
+                                                className="title">
+                                                {featured.breweries[1].name}
+                                            </Card.Title>
+
+                                            <Button
+                                                variant="primary"
+                                                onClick={() => grabID(featured.breweries[1].id)}>
+                                                View details
+                                            </Button>
+
                                         </Card.Body>
                                     </Card.ImgOverlay>
                                 </Card>
                             </div>
                             <div className="card3">
-                                <Card style={{ width: '18rem' }}>
-                                    <Card.Img className="img" variant="top" src={featured.breweries[2].image_url} />
+                                <Card style={{ width: '20rem', height: '30rem' }}>
+                                    <Card.Img
+                                        variant="top"
+                                        src={featured.breweries[2].image_url} />
                                     <Card.ImgOverlay>
                                         <Card.Body>
-                                            <Card.Title className="text-light">{featured.breweries[2].name}</Card.Title>
-                                            <Button variant="primary" onClick={() => setID(featured.breweries[2].id)}>View details</Button>
+
+                                            <Card.Title
+                                                className="title">
+                                                {featured.breweries[2].name}
+                                            </Card.Title>
+
+                                            <Button
+                                                variant="primary"
+                                                onClick={() => grabID(featured.breweries[2].id)}>
+                                                View details
+                                            </Button>
+
                                         </Card.Body>
                                     </Card.ImgOverlay>
                                 </Card>
                             </div>
                         </div>
-                    </body>
+                    </div>
                 </div>
                 :
                 <div className="App">
                     <header className="App-header">
                         <div>
-                            <Card style={{ width: '18rem' }}>
-                                <Card.Img variant="top" src="holder.js/100px180" />
-                                <Card.Body>
-                                    <Placeholder as={Card.Title} animation="glow">
-                                        <Placeholder xs={6} />
-                                    </Placeholder>
-                                    <Placeholder as={Card.Text} animation="glow">
-                                        <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} />{' '}
-                                        <Placeholder xs={6} /> <Placeholder xs={8} />
-                                    </Placeholder>
-                                    <Placeholder.Button variant="primary" xs={6} />
-                                </Card.Body>
-                            </Card>
+                            <Loader type="line-scale-pulse-out" />
                         </div>
                     </header>
                 </div>}
