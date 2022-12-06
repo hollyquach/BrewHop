@@ -1,0 +1,93 @@
+@import 'loaders.css/src/animations/line-scale-pulse-out.scss';
+
+.loader-hidden {
+  display: none;
+}
+.loader-active {
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  height: 50px;
+  animation: fadeOut 1s 1s;
+  animation-fill-mode: forwards;
+}
+
+h1 {
+    span {
+        color:#FFCD45;
+    }
+}
+
+.List {
+    background: #282c34;
+    margin: auto; 
+    animation: fadeIn 1s;
+    justify-content: center;
+}
+
+.List-header {
+    min-height: 2em;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+
+.List-table {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  background: white;
+  font-size: calc(10px + 1vmin);
+  border: 2px solid #FFCD45;
+  border-radius: 25px;
+  padding: 20px;
+  margin: 20px 5%;
+}
+
+.List-item:first-child {
+    border: none;
+}
+
+.List-item {
+    border-top: 2px solid #FFCD45;
+    padding: 10px;
+    text-align: left;
+}
+
+.pagination {
+    align-items: center;
+    justify-content: center;
+    margin: 10px 5%;
+    animation: fadeIn 1s;
+}
+
+.page-link {
+    border: 1px solid #FFCD45;
+    color: #FFCD45;
+    background: #282c34;
+}
+
+.page-link:hover {
+    border: 2px solid #FFCD45;
+    color: #FFCD45;
+    background: #282c34;
+    font-weight: bold;
+}
+
+.page-item.active .page-link {
+    color: #282c34;
+    background: #FFCD45;
+    border: 2px solid #FFCD45;
+}
+
+.page-item.disabled .page-link {
+    background: #282c34;
+}
