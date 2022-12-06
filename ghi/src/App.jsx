@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom'
+import { useToken } from './Components/useToken.js'
 import './App.css';
 import Featured from './Router/Featured/Featured.jsx'
 import Layout from './Router/Layout'
@@ -11,13 +12,17 @@ import Invalid from './Router/Invalid.jsx';
 export default function App() {
   const [searchCity, setSearchCity] = useState('') // search param - user input in search form -> results
   const [searchState, setSearchState] = useState('') // search param - user input in search form -> results
+  const [loginStatus, setLoginStatus] = useState(false)
   const [userID, setUserID] = useState('') // int of userID
+  const [userName, setUserName] = useState('')
   const [userFavorites, setUserFavorites] = useState([]) // list of yelp_ids -> user's favorited breweries
   const [breweryYelpID, setBreweryYelpID] = useState('') // string of a single yelp ID
-  const [loginStatus, setLoginStatus] = useState(false)
-  const [userName, setUserName] = useState('')
-  const [showLogin, setshowLogin] = useState(false)
-  const [showSignup, setShowSignup] = useState(false)
+  const [showLoginForm, setShowLoginForm] = useState(false)
+  const [showSignupForm, setShowSignupForm] = useState(false)
+  const [token] = useToken();
+
+  useEffect(() => { setLoginStatus(token ? true : false) }, [token]);
+
   //?? add state for userJWT token
 
 
@@ -59,6 +64,10 @@ export default function App() {
           loginStatus={loginStatus}
           setLoginStatus={setLoginStatus}
           userName={userName}
+          showSignupForm={showSignupForm}
+          setShowSignupForm={setShowSignupForm}
+          showLoginForm={showLoginForm}
+          setShowLoginForm={setShowLoginForm}
         />} >
           <Route index element={<Featured />} />
           <Route path="search/" element={<Results
