@@ -4,8 +4,9 @@ from authenticator import authenticator
 from fastapi.middleware.cors import CORSMiddleware
 
 
-
 app = FastAPI()
+app.include_router(accounts.router)
+app.include_router(authenticator.router)
 
 
 origins = [
@@ -23,6 +24,3 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-app.include_router(accounts.router)
-app.include_router(authenticator.router)

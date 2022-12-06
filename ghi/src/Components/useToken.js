@@ -2,9 +2,11 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 let internalToken = null;
 
+
 export function getToken() {
   return internalToken;
 }
+
 
 export async function getTokenInternal() {
   const url = `${process.env.REACT_APP_ACCOUNTS_SERVICE_API_HOST}/api/accounts/me/token/`;
@@ -20,6 +22,7 @@ export async function getTokenInternal() {
   } catch (e) { }
   return false;
 }
+
 
 function handleErrorMessage(error) {
   if ("error" in error) {
@@ -42,10 +45,12 @@ function handleErrorMessage(error) {
   return error;
 }
 
+
 export const AuthContext = createContext({
   token: null,
   setToken: () => null,
 });
+
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
@@ -57,7 +62,9 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
+
 export const useAuthContext = () => useContext(AuthContext);
+
 
 export function useToken() {
   const { token, setToken } = useAuthContext();
@@ -75,7 +82,7 @@ export function useToken() {
 
   async function logout() {
     if (token) {
-      const url = `${process.env.REACT_APP_ACCOUNTS_SERVICE_API_HOST}/logout`;
+      const url = `${process.env.REACT_APP_ACCOUNTS_SERVICE_API_HOST}/token`;
       await fetch(url, { method: "delete", credentials: "include" });
       internalToken = null;
       setToken(null);
@@ -102,12 +109,11 @@ export function useToken() {
     return handleErrorMessage(error);
   }
 
-  async function signup(username, password, email, firstName, lastName) {
+  async function signup(password, email, firstName, lastName) {
     const url = `${process.env.REACT_APP_ACCOUNTS_SERVICE_API_HOST}/api/accounts/`;
     const response = await fetch(url, {
       method: "post",
       body: JSON.stringify({
-        username,
         password,
         email,
         first_name: firstName,
@@ -118,7 +124,7 @@ export function useToken() {
       },
     });
     if (response.ok) {
-      await login(username, password);
+      await login(email, password);
     }
     return false;
   }

@@ -1,12 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useToken } from "../Components/useToken";
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Search from '../Components/Search'
 
 
 function showFavoritesButton(status) {
-    if (status === true){
+    if (status === true) {
         return ""
     } else {
         return "d-none"
@@ -46,7 +47,24 @@ function showSignupButton(status) {
 };
 
 
-export default function Navigation({searchCity, setSearchCity, searchState, setSearchState, loginStatus, userName}) {
+export default function Navigation({
+    searchCity,
+    setSearchCity,
+    searchState,
+    setSearchState,
+    loginStatus,
+    userName,
+    setShowLoginForm,
+    setShowSignupForm
+}) {
+    const [ , , logout, , ] = useToken();
+    const handleShowLoginForm = () => setShowLoginForm(true);
+    const handleShowSignupForm = () => setShowSignupForm(true);
+    const handleLogout = async e => {
+        e.preventDefault();
+        await logout();
+    }
+
     return (
         <Navbar
             className="navbar-visual"
@@ -79,9 +97,9 @@ export default function Navigation({searchCity, setSearchCity, searchState, setS
             <Navbar.Collapse className="justify-content-end">
                 <Nav>
                     <Navbar.Text className={showUserName(loginStatus)} >Signed in as: {userName} |</Navbar.Text>
-                    <Nav.Link className={showSignupButton(loginStatus)} as={NavLink} to="somethinghere/">Signup</Nav.Link> {/*Needs path*/}
-                    <Nav.Link className={showLoginButton(loginStatus)} as={NavLink} to="somethinghere/">Login</Nav.Link> {/*Needs path*/}
-                    <Nav.Link className={showLogoutButton(loginStatus)} as={NavLink} to="somethinghere/">Logout</Nav.Link> {/*Needs path*/}
+                    <Nav.Link className={showSignupButton(loginStatus)} onClick={handleShowSignupForm}>Signup</Nav.Link>
+                    <Nav.Link className={showLoginButton(loginStatus)} onClick={handleShowLoginForm}>Login</Nav.Link>
+                    <Nav.Link className={showLogoutButton(loginStatus)} onClick={handleLogout}>Logout</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar >

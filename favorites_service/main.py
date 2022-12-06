@@ -1,15 +1,11 @@
 from fastapi import FastAPI
-
-
-app = FastAPI()
-
-from fastapi import FastAPI
 from routers import favorites
 from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
 app.include_router(favorites.router)
+
 
 origins = [
     "http://localhost",
@@ -18,6 +14,7 @@ origins = [
     "http://localhost:8002",
     "http://localhost:3000"
 ]
+
 
 app.add_middleware(
     CORSMiddleware,
