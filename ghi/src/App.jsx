@@ -34,9 +34,11 @@ export default function App() {
 
   // [] function to update favorites (add or delete)
 
-  const getUserFavorites = async () => {
-    // only runs if user is logged in
-    if (loginStatus) {
+
+  // [] function to update favorites (add or delete)
+  //?? update fetch config header to credentials: "include",
+  useEffect(() => {
+    const getUserFavorites = async () => {
       let url = `${process.env.REACT_APP_FAVORITES_SERVICE_API_HOST}/favorites/${userID}`
       let config = {
         method: "GET",
@@ -44,59 +46,39 @@ export default function App() {
           Authorization: `Bearer ${token}`,
         },
       }
-      console.info(`🚦⭐️⭐️ QUERYING FAVORITES SERVICE | ${url}`)
+      const response = await fetch(url, config);
 
-    useEffect(() => {
-        setLoginStatus(token ? true : false);
-        setUserID(token ? userID : null);
-        setUserName(token ? userName : '')
-    }, [token, userID, userName, setUserID, setUserName]);
+      if (response.ok) {
+        let data = await response.json();
 
+        //> function to get brewery name and add to each
+        data.forEach(async (obj) => {
 
-    // [] function to update favorites (add or delete)
-    //?? update fetch config header to credentials: "include",
-    useEffect(() => {
-        const getUserFavorites = async () => {
-            let url = `${process.env.REACT_APP_FAVORITES_SERVICE_API_HOST}/favorites/${userID}`
-            let config = {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-            const response = await fetch(url, config);
+          let url = `${process.env.REACT_APP_YELP_API_SERVICE_API_HOST}/api/brewery?yelp_id=${obj.yelp_id}`
 
-            if (response.ok) {
-                let data = await response.json();
+          const response = await fetch(url);
 
-                //> function to get brewery name and add to each
-                data.forEach( async(obj) => {
+          if (response.ok) {
+            let data = await response.json();
+            obj["name"] = data.name
 
-                    let url = `${process.env.REACT_APP_YELP_API_SERVICE_API_HOST}/api/brewery?yelp_id=${obj.yelp_id}`
-                    
-                    const response = await fetch(url);
-                    
-                    if (response.ok) {
-                        let data = await response.json();
-                        obj["name"] = data.name
-                        
-                    } else {
-                        console.error(`🛑🛑 ERROR getting brewery name |`, response)
-                    }
-                })
+          } else {
+            console.error(`🛑🛑 ERROR getting brewery name |`, response)
+          }
+        })
 
-            setUserFavorites(data)
+        setUserFavorites(data)
 
-            } else {
-                console.error(`🛑🛑 ERROR getting user favorites |`, response);
-            }
-        }
+      } else {
+        console.error(`🛑🛑 ERROR getting user favorites |`, response);
+      }
+    }
 
-        if (userID) {
-            getUserFavorites();
-        }
+    if (userID) {
+      getUserFavorites();
+    }
 
-    }, [loginStatus, userID, token]);
+  }, [loginStatus, userID, token]);
 
 
   // !! from original fork & left for ref only -> remove before deployment
@@ -125,43 +107,43 @@ export default function App() {
   */
 
   // [] pass props into components as required
-    return (
-        <div>
-        <Routes>
-            <Route path="/" element={<Layout
-            setSearchCity={setSearchCity}
-            setSearchState={setSearchState}
-            loginStatus={loginStatus}
-            setLoginStatus={setLoginStatus}
-            showSignupForm={showSignupForm}
-            setShowSignupForm={setShowSignupForm}
-            showLoginForm={showLoginForm}
-            setShowLoginForm={setShowLoginForm}
-            userName={userName}
-            setUserName={setUserName}
-            userID={userID}
-            setUserID={setUserID}
-            />} >
-            <Route index element={<Featured setID={setBreweryYelpID} />} />
-            <Route path="search/" element={
-                <Results
-                searchCity={searchCity} searchState={searchState}
-                loginStatus={loginStatus}
-                userFavorites={userFavorites} setUserFavorites={setUserFavorites}
-                breweryYelpID={breweryYelpID} setBreweryYelpID={setBreweryYelpID}
-                />
-            } />
-            <Route path="favorites/" element={
-                <Favorites
-                    loginStatus={loginStatus}
-                    userFavorites={userFavorites} setUserFavorites={setUserFavorites}
-                    breweryYelpID={breweryYelpID} setBreweryYelpID={setBreweryYelpID}
-                />
-            } />
-            <Route path="brewery/" element={<Brewery yelpID={breweryYelpID} />} />
-            <Route path="*" element={<Invalid />} />
-            </Route>
-        </Routes>
-        </div>
-    );
+  return (
+    <div>
+      <Routes>
+        <Route path="/" element={<Layout
+          setSearchCity={setSearchCity}
+          setSearchState={setSearchState}
+          loginStatus={loginStatus}
+          setLoginStatus={setLoginStatus}
+          showSignupForm={showSignupForm}
+          setShowSignupForm={setShowSignupForm}
+          showLoginForm={showLoginForm}
+          setShowLoginForm={setShowLoginForm}
+          userName={userName}
+          setUserName={setUserName}
+          userID={userID}
+          setUserID={setUserID}
+        />} >
+          <Route index element={<Featured setID={setBreweryYelpID} />} />
+          <Route path="search/" element={
+            <Results
+              searchCity={searchCity} searchState={searchState}
+              loginStatus={loginStatus}
+              userFavorites={userFavorites} setUserFavorites={setUserFavorites}
+              breweryYelpID={breweryYelpID} setBreweryYelpID={setBreweryYelpID}
+            />
+          } />
+          <Route path="favorites/" element={
+            <Favorites
+              loginStatus={loginStatus}
+              userFavorites={userFavorites} setUserFavorites={setUserFavorites}
+              breweryYelpID={breweryYelpID} setBreweryYelpID={setBreweryYelpID}
+            />
+          } />
+          <Route path="brewery/" element={<Brewery yelpID={breweryYelpID} />} />
+          <Route path="*" element={<Invalid />} />
+        </Route>
+      </Routes>
+    </div>
+  );
 }
