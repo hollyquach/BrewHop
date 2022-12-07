@@ -24,7 +24,9 @@ export default function App() {
 
   useEffect(() => {
     setLoginStatus(token ? true : false);
-  }, [token]);
+    setUserID(token ? userID : null);
+    setUserName(token ? userName : '')
+  }, [token, userID, userName, setUserID, setUserName]);
 
 
   // [] function to update favorites (add or delete)
