@@ -1,47 +1,56 @@
-from pydantic import BaseModel, AnyUrl
+from pydantic import BaseModel, AnyUrl, Field
 import time
 
 
-# Home Page Return
+# Home Page | data parser
 class FeaturedLsItem(BaseModel):
-    id: str # yelp_id ->
+    id: str # yelp_id
     name: str
     image_url: AnyUrl
-    # location: LocationLst
-
 
 class FeaturedList(BaseModel):
     businesses: list[FeaturedLsItem]
 
-
+# Home Page | return validator
 class FeaturedBreweries(BaseModel):
     location: str
     breweries: list[dict]
 
-# Search Results Return
+# Search results | data parser
 class BreweryLsItem(BaseModel):
-    id: str
+    yelp_id: str = Field(..., alias='id')
     name: str
-    coordinates: dict
+    latitude: float
+    longitude: float
 
+    def __init__(self, **kwargs):
+        kwargs["latitude"] = kwargs["coordinates"]["latitude"]
+        kwargs["longitude"] = kwargs["coordinates"]["longitude"]
+        super().__init__(**kwargs)
 
 class BreweriesList(BaseModel):
     businesses: list[BreweryLsItem]
 
+# Search results | return validator
+class BreweryLsItemOut(BaseModel):
+    yelp_id: str
+    name: str
+    latitude: float
+    longitude: float
+
+class BreweriesListOut(BaseModel):
+    businesses: list[BreweryLsItemOut]
 
 # Detail Page return
 class BreweryDetailPage(BaseModel):
     id: str
     name: str
-    ## stretch goal to include other categories for that business
     image_url: AnyUrl
-    # location: dict
     address: list[str]
     display_phone: str
     open: list[str]
     latitude: float
     longitude: float
-    # coordinates: dict
 
     class Config:
         orm_mode: True
