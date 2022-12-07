@@ -11,11 +11,15 @@ export default function Layout({
     searchState,
     setSearchState,
     loginStatus,
-    userName,
+    setLoginStatus,
     setShowLoginForm,
     setShowSignupForm,
     showLoginForm,
-    showSignupForm
+    showSignupForm,
+    userName,
+    setUserName,
+    userID,
+    setUserID,
 }) {
     return (
         <>
@@ -39,12 +43,18 @@ export default function Layout({
                     <Login
                         setShowLoginForm={setShowLoginForm}
                         showLoginForm={showLoginForm}
+                        setLoginStatus={setLoginStatus}
+                        setUserID={setUserID}
+                        setUserName={setUserName}
                     />
                 </div>
                 <div>
                     <AccountForm
                         setShowSignupForm={setShowSignupForm}
                         showSignupForm={showSignupForm}
+                        setLoginStatus={setLoginStatus}
+                        setUserID={setUserID}
+                        setUserName={setUserName}
                     />
                 </div>
                 <div>

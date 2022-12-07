@@ -15,7 +15,13 @@ function BootstrapInput(props) {
     )
 }
 
-export default function AccountForm({ showSignupForm, setShowSignupForm }) {
+export default function AccountForm({
+    showSignupForm,
+    setShowSignupForm,
+    setLoginStatus,
+    setUserName,
+    setUserID
+}) {
     const [ , , , signup, ] = useToken();
     const [email, setEmail] = useState('');
     const [firstname, setFirstName] = useState('');
@@ -36,7 +42,10 @@ export default function AccountForm({ showSignupForm, setShowSignupForm }) {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        await signup(password, email, firstname, lastname);
+        const user = await signup(password, email, firstname, lastname);
+        setUserName(user.email);
+        setUserID(user.ID);
+        setLoginStatus(true);
         handleCloseSignupForm();
         handleCloseError();
         clearForm();

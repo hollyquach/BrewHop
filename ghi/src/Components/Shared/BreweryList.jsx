@@ -10,16 +10,16 @@ const BreweriesList = ({
     return (
         <div className="List">
                 <ul className="List-table">
-                    {breweries.map(brewery => (
-                        <li key={brewery.id} className="List-item">
+                    {breweries.map((brewery) => (
+                        <li key={brewery.yelp_id} className="List-item">
                             <Link
-                                onClick={() => { setBreweryYelpID(brewery.id); }}
+                                onClick={() => { setBreweryYelpID(brewery.yelp_id); }}
                                 to={{ pathname: '/brewery/' }}>
-                                {brewery.name}
+                                {brewery.name} 
                             </Link>
                             { loginStatus
                                 ?   <FavoriteButton
-                                        breweryYelpID={brewery.id}
+                                        breweryYelpID={brewery.yelp_id}
                                         userFavorites={userFavorites}
                                     />
                                 : <br></br>

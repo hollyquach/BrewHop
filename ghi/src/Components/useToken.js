@@ -103,8 +103,18 @@ export function useToken() {
     if (response.ok) {
       const token = await getTokenInternal();
       setToken(token);
-      return;
-    }
+      const IDurl = `${process.env.REACT_APP_ACCOUNTS_SERVICE_API_HOST}/accounts/${username}`
+      const IDresponse = await fetch(IDurl, {
+        method: "get",
+        credentials: "include",
+        headers: {'Content-Type': 'application/json'}
+      })
+      const IDdata = await IDresponse.json();
+      return {
+        "email": IDdata.email,
+        "ID":IDdata.id
+      };
+    };
     let error = await response.json();
     return handleErrorMessage(error);
   }
@@ -124,7 +134,11 @@ export function useToken() {
       },
     });
     if (response.ok) {
-      await login(email, password);
+      const user = await login(email, password);
+      return {
+        "email": user.email,
+        "ID": user.ID
+      }
     }
     return false;
   }

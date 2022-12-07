@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import Alert from 'react-bootstrap/Alert';
 import BreweryList from '../Components/Shared/BreweryList'
 import Pages from '../Components/Shared/Pagination'
 import '../Components/Shared/List.scss';
@@ -15,23 +14,26 @@ export default function Results({
     const [currentPage, setCurrentPage] = useState(1) // set page number -> for pagination and brewery index
     const [isLoading, setIsLoading] = useState(true)
     const pageSize = 5 
+    
+    
+    useEffect(() => {
+        setIsLoading(true);
+        const getData = async () => {
 
-
-    const getData = async () => {
-        let url = `${process.env.REACT_APP_YELP_API_SERVICE_API_HOST}/api/breweries?city=${searchCity}&state=${searchState}`
-
-        const response = await fetch(url);
-        console.info("🚦🍺🍺 QUERYING YELP SERVICE |", response.url)
-
-        if (response.ok) {
-            let data = await response.json();
-            setBreweries(data.businesses);
-            setCurrentPage(1);
+            let url = `${process.env.REACT_APP_YELP_API_SERVICE_API_HOST}/api/breweries?city=${searchCity}&state=${searchState}`
+            const response = await fetch(url);
+            
+            if (response.ok) {
+                let data = await response.json();
+                setBreweries(data.businesses);
+                setCurrentPage(1);
+            } else {
+                console.error(`🛑🛑 ERROR searching for breweries |`, response)
+            }
             setIsLoading(false);
-        } else {
-            console.error(`🛑🛑 ERROR searching for breweries |`, response)
         }
-    }
+        getData();
+    }, [searchCity, searchState]);
 
     //> Filters list of breweries by page number
     const currentBreweries = useMemo(() => {
@@ -47,12 +49,6 @@ export default function Results({
     }
 
 
-    useEffect(() => {
-        setIsLoading(true)
-        getData()
-    }, [searchCity, searchState]);
-
-    
     return (
         <>
         <div className="List">
@@ -60,9 +56,9 @@ export default function Results({
                 searchCity.length === 0 || searchState.length === 0
                     ? <>
                         <div className="App-header">
-                        <h1>
-                            Missing search input - <span>please enter a city/state!</span>
-                        </h1>
+                            <h1>
+                                Missing search input - <span>please enter a city/state!</span>
+                            </h1>
                         </div>
                     </>
                     : isLoading

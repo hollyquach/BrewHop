@@ -17,6 +17,9 @@ function BootstrapInput(props) {
 export default function Login({
     showLoginForm,
     setShowLoginForm,
+    setLoginStatus,
+    setUserName,
+    setUserID,
 }) {
     const [ , login] = useToken();
     const [email, setEmail] = useState('');
@@ -34,7 +37,10 @@ export default function Login({
 
     const handleSubmit = async e => {
         e.preventDefault();
-        await login(email, password);
+        const user = await login(email, password);
+        setUserName(user.email);
+        setUserID(user.ID);
+        setLoginStatus(true);
         handleCloseLoginForm();
         handleCloseError();
         clearForm();
