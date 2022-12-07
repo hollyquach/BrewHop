@@ -134,7 +134,11 @@ export function useToken() {
       },
     });
     if (response.ok) {
-      await login(email, password);
+      const user = await login(email, password);
+      return {
+        "email": user.email,
+        "ID": user.ID
+      }
     }
     return false;
   }
