@@ -11,16 +11,39 @@ import Invalid from './Router/Invalid.jsx';
 import { useToken } from './Components/useToken.js'
 
 export default function App() {
-    const [searchCity, setSearchCity] = useState('') // search param - user input in search form -> results
-    const [searchState, setSearchState] = useState('') // search param - user input in search form -> results
-    const [loginStatus, setLoginStatus] = useState(false)
-    const [userID, setUserID] = useLocalStorage("userID", null) // int of userID
-    const [userName, setUserName] = useLocalStorage("userName", '')
-    const [userFavorites, setUserFavorites] = useState([]) // list of yelp_ids -> user's favorited breweries
-    const [breweryYelpID, setBreweryYelpID] = useState('') // string of a single yelp ID
-    const [showLoginForm, setShowLoginForm] = useState(false)
-    const [showSignupForm, setShowSignupForm] = useState(false)
-    const [token] = useToken();
+  const [searchCity, setSearchCity] = useState('') // search param - user input in search form -> results
+  const [searchState, setSearchState] = useState('') // search param - user input in search form -> results
+  const [loginStatus, setLoginStatus] = useState(false)
+  const [userID, setUserID] = useLocalStorage("userID", null) // int of userID
+  const [userName, setUserName] = useLocalStorage("userName", '')
+  const [userFavorites, setUserFavorites] = useState([]) // list of yelp_ids -> user's favorited breweries
+  const [breweryYelpID, setBreweryYelpID] = useState('') // string of a single yelp ID
+  const [showLoginForm, setShowLoginForm] = useState(false)
+  const [showSignupForm, setShowSignupForm] = useState(false)
+  const [token] = useToken();
+
+  useEffect(() => {
+    setLoginStatus(token ? true : false);
+    if (token === false) {
+      setUserID(null);
+      setUserName('');
+    }
+  }, [token, userID, userName, setUserID, setUserName]);
+
+
+  // [] function to update favorites (add or delete)
+
+  const getUserFavorites = async () => {
+    // only runs if user is logged in
+    if (loginStatus) {
+      let url = `${process.env.REACT_APP_FAVORITES_SERVICE_API_HOST}/favorites/${userID}`
+      let config = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      console.info(`🚦⭐️⭐️ QUERYING FAVORITES SERVICE | ${url}`)
 
     useEffect(() => {
         setLoginStatus(token ? true : false);
