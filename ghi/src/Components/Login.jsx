@@ -17,6 +17,7 @@ function BootstrapInput(props) {
 export default function Login({
     showLoginForm,
     setShowLoginForm,
+    setLoginStatus,
     setUserName,
     setUserID,
 }) {
@@ -39,6 +40,7 @@ export default function Login({
         const user = await login(email, password);
         setUserName(user.email);
         setUserID(user.ID);
+        setLoginStatus(true);
         handleCloseLoginForm();
         handleCloseError();
         clearForm();

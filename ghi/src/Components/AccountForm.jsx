@@ -18,6 +18,7 @@ function BootstrapInput(props) {
 export default function AccountForm({
     showSignupForm,
     setShowSignupForm,
+    setLoginStatus,
     setUserName,
     setUserID
 }) {
@@ -44,6 +45,7 @@ export default function AccountForm({
         const user = await signup(password, email, firstname, lastname);
         setUserName(user.email);
         setUserID(user.ID);
+        setLoginStatus(true);
         handleCloseSignupForm();
         handleCloseError();
         clearForm();

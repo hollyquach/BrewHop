@@ -11,6 +11,7 @@ export default function Layout({
     searchState,
     setSearchState,
     loginStatus,
+    setLoginStatus,
     setShowLoginForm,
     setShowSignupForm,
     showLoginForm,
@@ -42,6 +43,7 @@ export default function Layout({
                     <Login
                         setShowLoginForm={setShowLoginForm}
                         showLoginForm={showLoginForm}
+                        setLoginStatus={setLoginStatus}
                         setUserID={setUserID}
                         setUserName={setUserName}
                     />
@@ -50,6 +52,7 @@ export default function Layout({
                     <AccountForm
                         setShowSignupForm={setShowSignupForm}
                         showSignupForm={showSignupForm}
+                        setLoginStatus={setLoginStatus}
                         setUserID={setUserID}
                         setUserName={setUserName}
                     />
