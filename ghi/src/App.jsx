@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocalStorage } from 'usehooks-ts'
+import { useLocalStorage, useSessionStorage } from 'usehooks-ts'
 import { Route, Routes } from 'react-router-dom'
 import './App.scss';
 import Featured from './Router/Featured/Featured.jsx'
@@ -11,24 +11,25 @@ import Invalid from './Router/Invalid.jsx';
 import { useToken } from './Components/useToken.js'
 
 export default function App() {
-  const [searchCity, setSearchCity] = useState('') // search param - user input in search form -> results
-  const [searchState, setSearchState] = useState('') // search param - user input in search form -> results
-  const [loginStatus, setLoginStatus] = useState(false)
+  const [searchCity, setSearchCity] = useSessionStorage("searchCity", '') // search param - user input in search form -> results
+  const [searchState, setSearchState] = useSessionStorage("searchState", '') // search param - user input in search form -> results
+  const [loginStatus, setLoginStatus] = useLocalStorage("loginStatus", false)
   const [userID, setUserID] = useLocalStorage("userID", null) // int of userID
   const [userName, setUserName] = useLocalStorage("userName", '')
-  const [userFavorites, setUserFavorites] = useState([]) // list of yelp_ids -> user's favorited breweries
-  const [breweryYelpID, setBreweryYelpID] = useState('') // string of a single yelp ID
+  const [userFavorites, setUserFavorites] = useLocalStorage("userFavorites", []) // list of yelp_ids -> user's favorited breweries
+  const [breweryYelpID, setBreweryYelpID] = useSessionStorage("breweryYelpID", '') // string of a single yelp ID
   const [showLoginForm, setShowLoginForm] = useState(false)
   const [showSignupForm, setShowSignupForm] = useState(false)
   const [token] = useToken();
 
   useEffect(() => {
-    setLoginStatus(token ? true : false);
     if (token === false) {
+      setLoginStatus(false)
       setUserID(null);
       setUserName('');
+      setUserFavorites([]);
     }
-  }, [token, userID, userName, setUserID, setUserName]);
+  }, [token, setUserID, setUserName, setLoginStatus, setUserFavorites]);
 
 
   // [] function to update favorites (add or delete)
