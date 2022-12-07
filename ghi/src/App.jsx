@@ -14,8 +14,6 @@ export default function App() {
   const [searchCity, setSearchCity] = useState('') // search param - user input in search form -> results
   const [searchState, setSearchState] = useState('') // search param - user input in search form -> results
   const [loginStatus, setLoginStatus] = useState(false)
-  // const [userID, setUserID] = useState(JSON.parse(window.sessionStorage.getItem("userID")) || null) // int of userID
-  // const [userName, setUserName] = useState(JSON.parse(window.sessionStorage.getItem("userName")) || '')
   const [userID, setUserID] = useLocalStorage("userID", null) // int of userID
   const [userName, setUserName] = useLocalStorage("userName", '')
   const [userFavorites, setUserFavorites] = useState([]) // list of yelp_ids -> user's favorited breweries
@@ -26,7 +24,6 @@ export default function App() {
 
   useEffect(() => {
     setLoginStatus(token ? true : false);
-
   }, [token]);
 
 
