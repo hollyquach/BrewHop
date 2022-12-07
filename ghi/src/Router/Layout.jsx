@@ -19,7 +19,6 @@ export default function Layout({
     setUserName,
     userID,
     setUserID,
-    setEnteredEmail
 }) {
     return (
         <>
