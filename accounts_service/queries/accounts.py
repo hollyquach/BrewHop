@@ -109,7 +109,7 @@ class AccountsRepository:
                     first_name=accounts.first_name,
                     last_name=accounts.last_name,
                     email=accounts.email,
-                    hashed_password=hashed_password,
+                    hashed_password=hashed_password
                 )
                     
 

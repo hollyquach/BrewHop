@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Response, HTTPException, status, Request
-from queries.accounts import AccountsIn, AccountsOut, AccountsRepository, Error, DuplicateAccountError
+from queries.accounts import AccountsIn, AccountsOut, AccountsRepository, Error, DuplicateAccountError, Accounts
 from typing import Union, List, Optional
 from jwtdown_fastapi.authentication import Token
 from authenticator import authenticator
@@ -30,13 +30,13 @@ def create_accounts(
 def get_all(repo:AccountsRepository = Depends()):
     return repo.get_all()
 
-@router.get("/accounts/{accounts_id}", response_model=(Optional[AccountsOut]))
+@router.get("/accounts/{accounts_email}", response_model=(Optional[AccountsOut]))
 def get_one_account(
-    accounts_id: int,
+    accounts_email: str,
     response: Response,
     repo: AccountsRepository = Depends(),
 ) -> AccountsOut:
-    accounts = repo.get_one(accounts_id)
+    accounts = repo.get_one(accounts_email)
     if accounts is None:
         response.status_code = 404
     return accounts
