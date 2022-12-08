@@ -7,7 +7,7 @@ COPY main.py main.py
 COPY requirements.txt requirements.txt
 COPY assets assets
 COPY migrations migrations
-COPY router router
+COPY routers routers
 
 RUN python -m pip install -r requirements.txt
 
