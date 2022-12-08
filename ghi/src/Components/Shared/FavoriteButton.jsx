@@ -21,8 +21,7 @@ const FavoriteButton = ({ breweryYelpID, userFavorites, userID }) => {
         }
         const response = await fetch(url, config);
         if (response.ok) {
-            let data = await response.json();
-            console.log("DATA:::", data)
+            await response.json();
         } else {
             console.error(`🛑🛑 ERROR posting to user favorites |`, response);
         }
@@ -47,7 +46,7 @@ const FavoriteButton = ({ breweryYelpID, userFavorites, userID }) => {
     }
 
 
-    const find = (element) => element.yelp_id == breweryYelpID
+    const find = (element) => element.yelp_id === breweryYelpID
     const idx = userFavorites.findIndex(find)
 
     return (
