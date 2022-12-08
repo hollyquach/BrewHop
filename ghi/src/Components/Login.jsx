@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useToken } from "./useToken";
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
+import Spinner from 'react-bootstrap/Spinner';
 
 function BootstrapInput(props) {
     const { id, placeholder, labelText, value, onChange, type } = props;
@@ -21,14 +22,32 @@ export default function Login({
     setUserName,
     setUserID,
 }) {
-    const [ , login] = useToken();
+    const [, login] = useToken();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showError, setShowError] = useState(false)
+    const [showSpinner, setShowSpinner] = useState('d-none')
+    const [showSubmitButton, setShowSubmitButton] = useState("btn btn-outline-secondary")
 
     const handleCloseLoginForm = () => setShowLoginForm(false);
-    // const handleShowError = () => setShowError(true);
-    const handleCloseError = () => setShowError(false);
+
+    const loading = () => {
+        setShowSubmitButton("d-none btn btn-outline-secondary");
+        setShowSpinner('');
+        setShowError(false);
+    }
+
+    const loginError = () => {
+        setShowSubmitButton("btn btn-outline-secondary");
+        setShowSpinner('d-none');
+        setShowError(true);
+    }
+
+    const loginSuccess = () => {
+        setShowSubmitButton("btn btn-outline-secondary");
+        setShowSpinner('d-none');
+        setShowError(false);
+    }
 
     const clearForm = () => {
         setEmail('');
@@ -37,13 +56,18 @@ export default function Login({
 
     const handleSubmit = async e => {
         e.preventDefault();
+        loading();
         const user = await login(email, password);
-        setUserName(user.email);
-        setUserID(user.ID);
-        setLoginStatus(true);
-        handleCloseLoginForm();
-        handleCloseError();
-        clearForm();
+        if (user.email && user.ID && user.token) {
+            setUserName(user.email);
+            setUserID(user.ID);
+            setLoginStatus(true);
+            handleCloseLoginForm();
+            loginSuccess();
+            clearForm();
+        } else {
+            loginError();
+        }
     };
 
     return (
@@ -81,7 +105,8 @@ export default function Login({
                     <Alert variant="danger" show={showError}>
                         Please enter valid user credentials.
                     </Alert>
-                    <button type="submit" className="btn btn-outline-secondary">Submit</button>
+                    <Spinner className={showSpinner} animation="border" variant="secondary" />
+                    <button type="submit" className={showSubmitButton}>Submit</button>
                 </Modal.Footer>
             </form>
         </Modal>
