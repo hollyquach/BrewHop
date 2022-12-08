@@ -112,7 +112,8 @@ export function useToken() {
       const IDdata = await IDresponse.json();
       return {
         "email": IDdata.email,
-        "ID":IDdata.id
+        "ID": IDdata.id,
+        "token": token
       };
     };
     let error = await response.json();
@@ -137,7 +138,8 @@ export function useToken() {
       const user = await login(email, password);
       return {
         "email": user.email,
-        "ID": user.ID
+        "ID": user.ID,
+        "token": user.token
       }
     }
     return false;
