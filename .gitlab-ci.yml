@@ -46,15 +46,9 @@ lint-test-job:
 build-front-end-job:
   stage: build
   image: node:lts-bullseye
-  rules:
-  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   needs:
     - lint-test-job
   variables:
-    # If either of these variables is defined in the GitLab
-    # CI/CD variables, that value will override the value here.
-    # You need to substitute in your real values for
-    # GROUP_NAME, PROJECT_NAME, & WEBSERVICE_NAME below.
     PUBLIC_URL: https://brewhoppers.gitlab.io/brew-hop/
     REACT_APP_ACCOUNTS_SERVICE_API_HOST: https://brewhop-accounts-service.onrender.com
     REACT_APP_FAVORITES_SERVICE_API_HOST: https://brewhop-favorites-service.onrender.com
