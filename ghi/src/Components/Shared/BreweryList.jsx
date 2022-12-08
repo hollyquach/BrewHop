@@ -4,7 +4,7 @@ import './List.scss';
 
 const BreweriesList = ({
     breweries, setBreweryYelpID,
-    loginStatus, userFavorites,
+    loginStatus, userFavorites, userID
 }) => {
 
     return (
@@ -21,6 +21,7 @@ const BreweriesList = ({
                                 ?   <FavoriteButton
                                         breweryYelpID={brewery.yelp_id}
                                         userFavorites={userFavorites}
+                                        userID={userID}
                                     />
                                 : <br></br>
                             }

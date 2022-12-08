@@ -131,6 +131,7 @@ export default function App() {
               loginStatus={loginStatus}
               userFavorites={userFavorites} setUserFavorites={setUserFavorites}
               breweryYelpID={breweryYelpID} setBreweryYelpID={setBreweryYelpID}
+              userID={userID}
             />
           } />
           <Route path="favorites/" element={
