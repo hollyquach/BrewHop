@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
-
+import '../App.scss'
 
 export default function FooterBar() {
     return (
