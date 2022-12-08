@@ -1,5 +1,5 @@
 import React from 'react';
-import states from '/app/src/assets/usstates.json';
+import states from '../assets/usstates';
 
 
 export default function State({inputState, setInputState}) {

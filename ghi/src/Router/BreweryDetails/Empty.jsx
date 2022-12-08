@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router';
-import Loader from 'react-loaders';
 
 export default function Empty() {
     const navigate = useNavigate()
