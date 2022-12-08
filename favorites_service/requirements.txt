@@ -2,3 +2,4 @@ fastapi[all]
 uvicorn[standard]==0.17.6
 psycopg[binary,pool]==3.0.14
 python-jose[cryptography]==3.3.0
+pytest

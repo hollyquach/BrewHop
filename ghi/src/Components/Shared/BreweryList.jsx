@@ -9,25 +9,25 @@ const BreweriesList = ({
 
     return (
         <div className="List">
-                <ul className="List-table">
-                    {breweries.map((brewery) => (
-                        <li key={brewery.yelp_id} className="List-item">
-                            <Link
-                                onClick={() => { setBreweryYelpID(brewery.yelp_id); }}
-                                to={{ pathname: '/brewery/' }}>
-                                {brewery.name} 
-                            </Link>
-                            { loginStatus
-                                ?   <FavoriteButton
-                                        breweryYelpID={brewery.yelp_id}
-                                        userFavorites={userFavorites}
-                                        userID={userID}
-                                    />
-                                : <br></br>
-                            }
-                        </li>
-                    ))}
-                </ul>
+            <ul className="List-table">
+                {breweries.map((brewery) => (
+                    <li key={brewery.yelp_id} className="List-item">
+                        <Link
+                            onClick={() => { setBreweryYelpID(brewery.yelp_id); }}
+                            to={{ pathname: '/brewery/' }}>
+                            {brewery.name}
+                        </Link>
+                        {loginStatus
+                            ? <FavoriteButton
+                                breweryYelpID={brewery.yelp_id}
+                                userFavorites={userFavorites}
+                                userID={userID}
+                            />
+                            : <br></br>
+                        }
+                    </li>
+                ))}
+            </ul>
         </div>
     )
 }

@@ -28,7 +28,9 @@ def get_all(
     return repo.get_all()
 
 
-@router.get("/favorites/{user_id}", response_model=Union[Error, List[FavoriteOut]])
+@router.get(
+    "/favorites/{user_id}", response_model=Union[Error, List[FavoriteOut]]
+)
 def get_all_for_user(
     user_id: int,
     repo: FavoriteRepository = Depends(),

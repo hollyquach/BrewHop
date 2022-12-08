@@ -10,16 +10,16 @@ const Pages = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
         <>
             <br></br>
             <div className="px=3">
-            <Pagination size="sm">
-                <Pagination.First
-                    onClick={() => onPageChange(1)}
-                    disabled={currentPage === 1 ? true : false}
-                />
-                <Pagination.Prev 
-                    onClick={() => onPageChange(currentPage-1)}
-                    disabled={currentPage === 1 ? true : false}
-                />
-                {pages.map((page) => (
+                <Pagination size="sm">
+                    <Pagination.First
+                        onClick={() => onPageChange(1)}
+                        disabled={currentPage === 1 ? true : false}
+                    />
+                    <Pagination.Prev
+                        onClick={() => onPageChange(currentPage - 1)}
+                        disabled={currentPage === 1 ? true : false}
+                    />
+                    {pages.map((page) => (
                         <Pagination.Item
                             key={page}
                             className={page === currentPage ? 'page-item active' : 'page-item'}
@@ -27,19 +27,19 @@ const Pages = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
                             {page}
                         </Pagination.Item>
                     ))}
-                <Pagination.Next
-                    onClick={() => onPageChange(currentPage+1)}
-                    disabled={currentPage === pagesCount ? true : false}
-                />
-                <Pagination.Last
-                    onClick={() => onPageChange(pagesCount)}
-                    disabled={currentPage === pagesCount ? true : false}
-                />
-            </Pagination>
+                    <Pagination.Next
+                        onClick={() => onPageChange(currentPage + 1)}
+                        disabled={currentPage === pagesCount ? true : false}
+                    />
+                    <Pagination.Last
+                        onClick={() => onPageChange(pagesCount)}
+                        disabled={currentPage === pagesCount ? true : false}
+                    />
+                </Pagination>
             </div>
             <br></br>
         </>
-    )   
+    )
 }
 
 export default Pages
