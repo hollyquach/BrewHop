@@ -77,7 +77,7 @@ export default function Navigation({
                 >
                     <img
                         alt="BrewHop Logo"
-                        src="./navlogo.svg"
+                        src={`${process.env.PUBLIC_URL}/navlogo.svg`}
                         height="50"
                         className="d-inline-block align-top"
                     />
