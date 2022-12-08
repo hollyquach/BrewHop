@@ -1,18 +1,15 @@
 
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import yelpAPI
+import os
 
 
 app = FastAPI()
 app.include_router(yelpAPI.router)
 
 origins = [
-    "http://localhost",
-    "http://localhost:8000",
-    "http://localhost:8001",
-    "http://localhost:8002",
-    "http://localhost:3000"
+    os.environ["REACT_APP_HOST"]
 ]
 
 app.add_middleware(

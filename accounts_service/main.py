@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from router import accounts
 from authenticator import authenticator
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
 
 app = FastAPI()
@@ -10,11 +11,7 @@ app.include_router(authenticator.router)
 
 
 origins = [
-    "http://localhost",
-    "http://localhost:8000",
-    "http://localhost:8001",
-    "http://localhost:8002",
-    "http://localhost:3000"
+    os.environ["REACT_APP_HOST"]
 ]
 
 app.add_middleware(
