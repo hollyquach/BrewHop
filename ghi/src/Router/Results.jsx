@@ -8,7 +8,7 @@ export default function Results({
     searchCity, searchState,
     loginStatus,
     userFavorites, setUserFavorites,
-    breweryYelpID, setBreweryYelpID
+    breweryYelpID, setBreweryYelpID, userID
 }) {
     const [breweries, setBreweries] = useState([]) // store brewery data from search
     const [currentPage, setCurrentPage] = useState(1) // set page number -> for pagination and brewery index
@@ -86,6 +86,7 @@ export default function Results({
                                             userFavorites={userFavorites}
                                             breweryYelpID={breweryYelpID}
                                             setBreweryYelpID={setBreweryYelpID}
+                                            userID={userID}
                                         />
                                         <Pages
                                             itemsCount={breweries.length}
