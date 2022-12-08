@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import Placeholder from 'react-bootstrap/Placeholder';
 import { useNavigate } from 'react-router-dom';
 import './index.scss'
 import Loader from 'react-loaders';

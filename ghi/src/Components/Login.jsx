@@ -27,7 +27,7 @@ export default function Login({
     const [showError, setShowError] = useState(false)
 
     const handleCloseLoginForm = () => setShowLoginForm(false);
-    const handleShowError = () => setShowError(true);
+    // const handleShowError = () => setShowError(true);
     const handleCloseError = () => setShowError(false);
 
     const clearForm = () => {

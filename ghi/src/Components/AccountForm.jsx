@@ -30,7 +30,7 @@ export default function AccountForm({
     const [showError, setShowError] = useState(false)
 
     const handleCloseSignupForm = () => setShowSignupForm(false);
-    const handleShowError = () => setShowError(true);
+    // const handleShowError = () => setShowError(true);
     const handleCloseError = () => setShowError(false);
 
     const clearForm = () => {

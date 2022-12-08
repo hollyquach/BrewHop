@@ -50,7 +50,7 @@ export default function App() {
 
       if (response.ok) {
         let data = await response.json();
-
+        console.log("user favorites pulled")
         //> function to get brewery name and add to each
         data.forEach(async (obj) => {
 
@@ -74,11 +74,11 @@ export default function App() {
       }
     }
 
-    if (userID) {
+    if (token) {
       getUserFavorites();
     }
 
-  }, [loginStatus, userID, token]);
+  }, [userID, token, setUserFavorites]);
 
 
   // !! from original fork & left for ref only -> remove before deployment
