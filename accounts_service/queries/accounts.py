@@ -43,10 +43,15 @@ class AccountsRepository:
             with pool.cursor() as db:
                 result = db.execute(
                     """
-                            SELECT id, first_name, last_name, email, hashed_password
-                            FROM accounts
-                            WHERE email = %s
-                        """,
+                        SELECT
+                            id,
+                            first_name,
+                            last_name,
+                            email,
+                            hashed_password
+                        FROM accounts
+                        WHERE email = %s
+                    """,
                     [email],
                 )
                 record = result.fetchone()
@@ -68,12 +73,17 @@ class AccountsRepository:
         try:
 
             with pool.cursor() as db:
-                result = db.execute(
+                db.execute(
                     """
-                            SELECT id, first_name, last_name, email, hashed_password
-                            FROM accounts
-                            ORDER BY last_name;
-                        """
+                        SELECT
+                            id,
+                            first_name,
+                            last_name,
+                            email,
+                            hashed_password
+                        FROM accounts
+                        ORDER BY last_name;
+                    """
                 )
                 return [
                     AccountsOut(
@@ -98,7 +108,7 @@ class AccountsRepository:
                     VALUES
                         (%s, %s, %s, %s)
                     RETURNING id;
-                    """,
+                """,
                 [
                     accounts.first_name,
                     accounts.last_name,
@@ -122,7 +132,7 @@ class AccountsRepository:
                     """
                         DELETE FROM accounts
                         WHERE id = %s
-                        """,
+                    """,
                     [accounts_id],
                 )
                 return True

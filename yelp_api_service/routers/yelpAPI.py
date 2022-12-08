@@ -1,12 +1,16 @@
 import requests
 import os
 from fastapi import APIRouter
-from encoders import *
+from encoders import (
+    FeaturedList,
+    FeaturedBreweries,
+    BreweriesList,
+    BreweriesListOut,
+    BreweryDetailPage,
+    convert_hours,
+)
 import random
 import json
-
-
-# [] update API key call for deployment -> currently passing in key & calling from env
 
 router = APIRouter()
 
@@ -30,13 +34,16 @@ def yelprequest(url, url_params):
         "Authorization": "Bearer %s" % api_key,
     }
     try:
-        response = requests.request("GET", url, headers=headers, params=url_params)
+        response = requests.request(
+            "GET", url, headers=headers, params=url_params
+        )
         response.raise_for_status()
-        
+
         return response.json()
 
     except requests.exceptions.HTTPError as err:
         raise SystemExit(err)
+
 
 @router.get("/api/breweries", response_model=BreweriesListOut)
 async def get_brewery_list(
@@ -68,7 +75,7 @@ async def get_brewery_list(
         "categories": "breweries",
         "is_closed": False,
         "location": f"{city}+{state}+US",
-        "limit": 50, 
+        "limit": 50,
     }
 
     result = yelprequest(url, url_params)
@@ -81,7 +88,8 @@ async def get_brewery_list(
 @router.get("/api/featured", response_model=FeaturedBreweries)
 async def get_featured():
     """
-    Returns a dictionary with a featured location and list of 3 breweries for that location:
+    Returns a dictionary with a featured location
+    and list of 3 breweries for that location:
         {
             "location": Featured location
             "breweries": [
@@ -144,10 +152,12 @@ async def get_brewery_detail(yelp_id: str):
 
     result = yelprequest(url, url_params=None)
 
-    # convert format of hours from return to a list of strings of open hours for each day
+    # convert format of hours from return
+    # to a list of strings of open hours for each day
     openhours = [convert_hours(day) for day in result["hours"][0]["open"]]
 
-    # adding nested data to results dictionary for return to reduce reformatting later
+    # adding nested data to results dictionary
+    # for return to reduce reformatting later
     result["open"] = openhours
     result["address"] = result["location"]["display_address"]
     result["latitude"] = result["coordinates"]["latitude"]

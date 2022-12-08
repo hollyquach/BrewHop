@@ -13,16 +13,16 @@ export default function Results({
     const [breweries, setBreweries] = useState([]) // store brewery data from search
     const [currentPage, setCurrentPage] = useState(1) // set page number -> for pagination and brewery index
     const [isLoading, setIsLoading] = useState(true)
-    const pageSize = 5 
-    
-    
+    const pageSize = 5
+
+
     useEffect(() => {
         setIsLoading(true);
         const getData = async () => {
 
             let url = `${process.env.REACT_APP_YELP_API_SERVICE_API_HOST}/api/breweries?city=${searchCity}&state=${searchState}`
             const response = await fetch(url);
-            
+
             if (response.ok) {
                 let data = await response.json();
                 setBreweries(data.businesses);
@@ -39,10 +39,10 @@ export default function Results({
     const currentBreweries = useMemo(() => {
         const firstIdx = (currentPage - 1) * pageSize;
         const lastIdx = firstIdx + pageSize;
-        
+
         return breweries.slice(firstIdx, lastIdx);
     }, [currentPage, breweries]);
-    
+
 
     const handlePageChange = (page) => {
         setCurrentPage(page)
@@ -51,28 +51,28 @@ export default function Results({
 
     return (
         <>
-        <div className="List">
-            {
-                searchCity.length === 0 || searchState.length === 0
-                    ? <>
-                        <div className="App-header">
-                            <h1>
-                                Missing search input - <span>please enter a city/state!</span>
-                            </h1>
-                        </div>
-                    </>
-                    : isLoading
+            <div className="List">
+                {
+                    searchCity.length === 0 || searchState.length === 0
                         ? <>
-                            <div className="App">
-                                <header className="App-header">
-                                    <div>
-                                        <Loader type="line-scale-pulse-out" />
-                                    </div>
-                                </header>
+                            <div className="App-header">
+                                <h1>
+                                    Missing search input - <span>please enter a city/state!</span>
+                                </h1>
                             </div>
                         </>
-                        : breweries.length > 0
-                            ?   <>
+                        : isLoading
+                            ? <>
+                                <div className="App">
+                                    <header className="App-header">
+                                        <div>
+                                            <Loader type="line-scale-pulse-out" />
+                                        </div>
+                                    </header>
+                                </div>
+                            </>
+                            : breweries.length > 0
+                                ? <>
                                     <div className="App">
                                         <div className="List-header">
                                             <div className="col-md-12">
@@ -96,16 +96,16 @@ export default function Results({
                                         />
                                     </div>
                                 </>
-                            : <>
-                                <div className="App-header">
-                                    <h1>
-                                        <span> Sorry, we couldn't find any breweries!</span>
-                                        Please try a different search.
-                                    </h1>
-                                </div>
-                            </>
-            }
-        </div>
+                                : <>
+                                    <div className="App-header">
+                                        <h1>
+                                            <span> Sorry, we couldn't find any breweries!</span>
+                                            Please try a different search.
+                                        </h1>
+                                    </div>
+                                </>
+                }
+            </div>
         </>
     )
 }

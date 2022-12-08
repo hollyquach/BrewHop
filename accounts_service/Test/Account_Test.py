@@ -11,9 +11,11 @@ test_users = {
     "email": "str",
 }
 
+
 class EmptyAccountsRepository:
     def get_one_user(self, user_id: int):
         return test_users
+
 
 def test_get_one_user_by_id():
     app.dependency_overrides[AccountsRepository] = EmptyAccountsRepository
