@@ -17,7 +17,7 @@ export default function FooterBar() {
                 >
                     <img
                         alt="Project Repository Link"
-                        src="/gitlab-logo-600.svg"
+                        src="./gitlab-logo-600.svg"
                         height="30"
                         className="d-inline-block align-middle"
                     />Project Repository
