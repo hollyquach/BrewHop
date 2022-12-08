@@ -3,6 +3,7 @@ RUN python -m pip install --upgrade pip
 
 WORKDIR /app
 
+COPY encoders.py encoders.py
 COPY main.py main.py
 COPY requirements.txt requirements.txt
 COPY assets assets
