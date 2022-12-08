@@ -13,6 +13,7 @@ services:
     environment:
       SIGNING_KEY: d52298e81cb880a4c73cd7d9eca43f750ad8cd2f4160d03b3105a8671d014428
       DATABASE_URL: postgres://users:password@postgres:5432/users
+      REACT_APP_HOST: http://localhost:3000
       WAIT_HOSTS: postgres:5432
   favorites:
     build:
@@ -25,6 +26,7 @@ services:
     environment:
       SIGNING_KEY: d52298e81cb880a4c73cd7d9eca43f750ad8cd2f4160d03b3105a8671d014428
       DATABASE_URL: postgres://users:password@postgres:5432/favorites
+      REACT_APP_HOST: http://localhost:3000
       WAIT_HOSTS: postgres:5432
   yelp_api:
     build:
@@ -36,6 +38,7 @@ services:
       - ./yelp_api_service:/app
     environment:
       WAIT_HOSTS: postgres:5432
+      REACT_APP_HOST: http://localhost:3000
     env_file: .env
   ghi:
     image: node:lts-bullseye
