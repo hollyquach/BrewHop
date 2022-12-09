@@ -1,6 +1,6 @@
 import requests
 import os
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from encoders import (
     FeaturedList,
     FeaturedBreweries,
@@ -45,11 +45,16 @@ def yelprequest(url, url_params):
         raise SystemExit(err)
 
 
+def getyelprequest():
+    return yelprequest
+
+
 @router.get("/api/breweries", response_model=BreweriesListOut)
 async def get_brewery_list(
     # search by city/state inputs from user
     city: str,
     state: str,
+    yelprequestfn=Depends(getyelprequest),
 ):
     """
     Given a city & state,
@@ -78,8 +83,7 @@ async def get_brewery_list(
         "limit": 50,
     }
 
-    result = yelprequest(url, url_params)
-
+    result = yelprequestfn(url, url_params)
     result = BreweriesList.parse_obj(result).dict()
 
     return result
