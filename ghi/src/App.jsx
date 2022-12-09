@@ -9,6 +9,7 @@ import Favorites from './Router/Favorites.jsx';
 import Brewery from './Router/BreweryDetails/Brewery'
 import Invalid from './Router/Invalid.jsx';
 import { useToken } from './Components/useToken.js'
+import { ContactForm } from './Layout/ContactForm'
 
 export default function App() {
   const [searchCity, setSearchCity] = useSessionStorage("searchCity", '') // search param - user input in search form -> results
@@ -142,6 +143,7 @@ export default function App() {
           } />
           <Route path="brewery/" element={<Brewery yelpID={breweryYelpID} />} />
           <Route path="*" element={<Invalid />} />
+          <Route path="contactform" element={<ContactForm />} />
         </Route>
       </Routes>
     </div>
