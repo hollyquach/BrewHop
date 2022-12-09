@@ -24,6 +24,7 @@ const FavoriteButton = ({ breweryYelpID, userFavorites, userID }) => {
         const response = await fetch(url, config);
         if (response.ok) {
             await response.json();
+            console.debug(`🤍🤍 || add favorite >>>`, response.ok);
         } else {
             console.error(`🛑🛑 ERROR posting to user favorites |`, response);
         }
@@ -62,13 +63,13 @@ const FavoriteButton = ({ breweryYelpID, userFavorites, userID }) => {
                     style={{ marginLeft: 10 }}
                     onClick={() => deleteFavorite(userFavorites[idx].id)}
                     variant="warning"
-                > ⭐️⭐️ </Button>
+                > ⭐️ </Button>
                 : <Button
                     className="float-right btn  btn-sm"
                     onClick={() => newUserFavorite(breweryYelpID)}
                     style={{ marginLeft: 10 }}
                     variant="outline-secondary"
-                > ★★ </Button>
+                > ★ </Button>
             }
         </>
     )
