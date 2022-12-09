@@ -22,7 +22,7 @@ export default function Login({
     setUserName,
     setUserID,
 }) {
-    const [, login] = useToken();
+    const [login] = useToken();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showError, setShowError] = useState(false)
