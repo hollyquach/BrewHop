@@ -32,15 +32,17 @@ lint-test-job:
 #     - pip install -r requirements.txt
 #     - python -m pytest
 
-# yelp-api-unit-test-job:
-#   image: python:3-bullseye
-#   stage: test
-#   needs:
-#     - lint-test-job
-#   script:
-#     - cd yelp_api_service
-#     - pip install -r requirements.txt
-#     - python -m pytest
+yelp-api-unit-test-job:
+  image: python:3-bullseye
+  stage: test
+  needs:
+    - lint-test-job
+  variables:
+    REACT_APP_HOST: https://brewhoppers.gitlab.io/brew-hop
+  script:
+    - cd yelp_api_service
+    - pip install -r requirements.txt
+    - python -m pytest
 
 # Build the React/JavaScript front-end
 build-front-end-job:
