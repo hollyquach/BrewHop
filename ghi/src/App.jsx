@@ -23,84 +23,95 @@ export default function App() {
   const [showSignupForm, setShowSignupForm] = useState(false)
   const { token } = useAuthContext();
 
-  useEffect(() => {
-    if (token === false) {
-      setLoginStatus(false)
-      setUserID(null);
-      setUserName('');
-      setUserFavorites([]);
-    }
-  }, [token, setUserID, setUserName, setLoginStatus, setUserFavorites]);
+    useEffect(() => {
+        if (token === false) {
+            setLoginStatus(false)
+            setUserID(null);
+            setUserName('');
+            setUserFavorites([]);
+            console.debug(`📲📲 || app.jsx useEffect clear favorites state >>>`, userFavorites);
+        }
+    }, [token, setUserID, setUserName, setLoginStatus, setUserFavorites]);
 
 
   useEffect(() => {
     const getUserFavorites = async () => {
-      let url = `${process.env.REACT_APP_FAVORITES_SERVICE_API_HOST}/favorites/${userID}`
-      let config = {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-      const response = await fetch(url, config);
+        let list = []
 
-      if (response.ok) {
-        let data = await response.json();
-        console.log("user favorites pulled")
-        //> function to get brewery name and add to each
-        data.forEach(async (obj) => {
-
-          let url = `${process.env.REACT_APP_YELP_API_SERVICE_API_HOST}/api/brewery?yelp_id=${obj.yelp_id}`
-
-          const response = await fetch(url);
-
-          if (response.ok) {
-            let data = await response.json();
-            obj["name"] = data.name
-
-          } else {
-            console.error(`🛑🛑 ERROR getting brewery name |`, response)
-          }
-        })
-
-        setUserFavorites(data)
-
-      } else {
-        console.error(`🛑🛑 ERROR getting user favorites |`, response);
-      }
-    }
-
-    if (token) {
-      getUserFavorites();
-    }
-
-  }, [userID, token, setUserFavorites]);
-
-
-  // !! from original fork & left for ref only -> remove before deployment
-  /*
-    const [launch_info, setLaunchInfo] = useState([]);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-      async function getData() {
-        let url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api/launch-details`;
-        console.log('fastapi url: ', url);
-        let response = await fetch(url);
-        console.log("------- hello? -------");
-        let data = await response.json();
+        //[] GET USER FAVORITES
+        let url = `${process.env.REACT_APP_FAVORITES_SERVICE_API_HOST}/favorites/${userID}`
+        let config = {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+        const response = await fetch(url, config);
 
         if (response.ok) {
-          console.log("got launch data!");
-          setLaunchInfo(data.launch_details);
+            //[] IF THAT WORKS SAVE AS FAVORITES DATA
+            let favoritesdata = await response.json();
+
+            //[] THEN LOOP THROUGH EACH ITEM AND REQUEST THE NAME
+            favoritesdata.forEach(async (obj) => {
+                let yelpurl = `${process.env.REACT_APP_YELP_API_SERVICE_API_HOST}/api/brewery?yelp_id=${obj.yelp_id}`
+                const responsetwo = await fetch(yelpurl);
+
+                if (responsetwo.ok) {
+                    // FOR EACH BREWERY, ADD NAME TO THE PROPERTY WHERE EACH ONE IS "OBJ"
+                    let brewerydata = await responsetwo.json();
+                    obj["name"] = brewerydata.name
+
+                    // ADD EACH OF THE ITEMS WITH THE NAME TO "LIST"
+                    list.push(obj)
+                    // console.debug(`🚦🚦 || userFavorites.forEach || obj`, obj);
+                } else {
+                    console.error(`🛑🛑 ERROR getting brewery name |`, response)
+                }
+            })
         } else {
-          console.log("drat! something happened");
-          setError(data.message);
+            console.error(`🛑🛑 ERROR getting user favorites |`, response)
         }
-      }
-      getData();
-    }, [])
-  */
+        console.log(`🚦🚦 || list after looping through breweries (not saving)`, list);
+        
+
+        setUserFavorites(list);
+        console.debug(`🖥 🖥 ||  User Favorites STATE >>`, userFavorites);
+    
+    }
+
+
+    useEffect(() => {
+        if (userID && token) {
+            getUserFavorites()
+        }
+    }, [userID, token])
+    //!! CORRECT USE EFFECT
+
+    // !! from original fork & left for ref only -> remove before deployment
+    /*
+      const [launch_info, setLaunchInfo] = useState([]);
+      const [error, setError] = useState(null);
+  
+      useEffect(() => {
+        async function getData() {
+          let url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api/launch-details`;
+          console.log('fastapi url: ', url);
+          let response = await fetch(url);
+          console.log("------- hello? -------");
+          let data = await response.json();
+  
+          if (response.ok) {
+            console.log("got launch data!");
+            setLaunchInfo(data.launch_details);
+          } else {
+            console.log("drat! something happened");
+            setError(data.message);
+          }
+        }
+        getData();
+      }, [])
+    */
 
   return (
     <div>
