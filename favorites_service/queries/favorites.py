@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import Union, List
-from queries.pool import pool
+from queries.pool import get_conn
 
 
 class Error(BaseModel):
@@ -21,7 +21,8 @@ class FavoriteOut(BaseModel):
 class FavoriteRepository:
     def get_all(self) -> Union[Error, List[FavoriteOut]]:
         try:
-            with pool.cursor() as db:
+            connection = get_conn()
+            with connection.cursor() as db:
                 db.execute(
                     """
                         SELECT id, user_id, yelp_id
@@ -43,7 +44,8 @@ class FavoriteRepository:
         self, user_id: int
     ) -> Union[Error, List[FavoriteOut]]:
         try:
-            with pool.cursor() as db:
+            connection = get_conn()
+            with connection.cursor() as db:
                 db.execute(
                     """
                         SELECT id, user_id, yelp_id
@@ -65,7 +67,8 @@ class FavoriteRepository:
 
     def create(self, favorite: FavoriteIn) -> FavoriteOut:
         try:
-            with pool.cursor() as db:
+            connection = get_conn()
+            with connection.cursor() as db:
                 result = db.execute(
                     """
                         INSERT INTO favorites
@@ -84,7 +87,8 @@ class FavoriteRepository:
 
     def delete(self, id: int) -> bool:
         try:
-            with pool.cursor() as db:
+            connection = get_conn()
+            with connection.cursor() as db:
                 db.execute(
                     """
                         DELETE FROM favorites
