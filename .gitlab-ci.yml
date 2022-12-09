@@ -12,15 +12,19 @@ lint-test-job:
     - flake8 accounts_service favorites_service yelp_api_service
 
 # Run the unit tests
-# accounts-api-unit-test-job:
-#   image: python:3-bullseye
-#   stage: testflake
-#   needs:
-#     - lint-test-job
-#   script:
-#     - cd accounts_service
-#     - pip install -r requirements.txt
-#     - python -m pytest
+accounts-api-unit-test-job:
+  image: python:3-bullseye
+  stage: test
+  needs:
+    - lint-test-job
+  variables:
+    REACT_APP_HOST: ${REACT_APP_HOST}
+    DATABASE_URL: ${DATABASE_URL}
+    SIGNING_KEY: ${SIGNING_KEY}
+  script:
+    - cd accounts_service
+    - pip install -r requirements.txt
+    - python -m pytest
 
 # favorites-api-unit-test-job:
 #   image: python:3-bullseye
