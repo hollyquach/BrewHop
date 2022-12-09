@@ -5,9 +5,9 @@ import '../Components/Shared/List.scss';
 import Loader from 'react-loaders';
 
 export default function Favorites({
-    loginStatus,
+    loginStatus, userID,
     userFavorites, setUserFavorites,
-    breweryYelpID, setBreweryYelpID
+    setBreweryYelpID
 }) {
     const [currentPage, setCurrentPage] = useState(1) // set page number -> for pagination and brewery index
     const [isLoading, setIsLoading] = useState(true)
@@ -61,11 +61,12 @@ export default function Favorites({
                                             </div>
                                         </div>
                                         <BreweryList
-                                            breweries={currentBreweries}
+                                            userID={userID}
                                             loginStatus={loginStatus}
-                                            userFavorites={userFavorites}
-                                            breweryYelpID={breweryYelpID}
+                                            breweries={currentBreweries}
                                             setBreweryYelpID={setBreweryYelpID}
+                                            userFavorites={userFavorites}
+                                            setUserFavorites={setUserFavorites}
                                         />
                                         <Pages
                                             itemsCount={userFavorites.length}

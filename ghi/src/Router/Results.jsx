@@ -6,9 +6,9 @@ import Loader from 'react-loaders';
 
 export default function Results({
     searchCity, searchState,
-    loginStatus,
+    loginStatus, userID,
     userFavorites, setUserFavorites,
-    breweryYelpID, setBreweryYelpID, userID
+    setBreweryYelpID
 }) {
     const [breweries, setBreweries] = useState([]) // store brewery data from search
     const [currentPage, setCurrentPage] = useState(1) // set page number -> for pagination and brewery index
@@ -81,12 +81,12 @@ export default function Results({
                                             </div>
                                         </div>
                                         <BreweryList
-                                            breweries={currentBreweries}
-                                            loginStatus={loginStatus}
-                                            userFavorites={userFavorites}
-                                            breweryYelpID={breweryYelpID}
-                                            setBreweryYelpID={setBreweryYelpID}
                                             userID={userID}
+                                            loginStatus={loginStatus}
+                                            breweries={currentBreweries}
+                                            setBreweryYelpID={setBreweryYelpID}
+                                            userFavorites={userFavorites}
+                                            setUserFavorites={setUserFavorites}
                                         />
                                         <Pages
                                             itemsCount={breweries.length}

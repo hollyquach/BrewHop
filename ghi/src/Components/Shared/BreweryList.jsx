@@ -3,8 +3,9 @@ import FavoriteButton from './FavoriteButton'
 import './List.scss';
 
 const BreweriesList = ({
+    userID, loginStatus,
     breweries, setBreweryYelpID,
-    loginStatus, userFavorites, userID
+    userFavorites, setUserFavorites
 }) => {
 
     return (
@@ -21,6 +22,7 @@ const BreweriesList = ({
                             ? <FavoriteButton
                                 breweryYelpID={brewery.yelp_id}
                                 userFavorites={userFavorites}
+                                setUserFavorites={setUserFavorites}
                                 userID={userID}
                             />
                             : <br></br>

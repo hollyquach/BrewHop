@@ -8,7 +8,6 @@ import Results from './Router/Results';
 import Favorites from './Router/Favorites.jsx';
 import Brewery from './Router/BreweryDetails/Brewery'
 import Invalid from './Router/Invalid.jsx';
-// import { useToken } from './Components/useToken.js'
 import { useAuthContext } from './Components/useToken.js'
 
 
@@ -23,9 +22,8 @@ export default function App() {
     const [showSignupForm, setShowSignupForm] = useState(false)
     const { token } = useAuthContext();
 
-    // const [userFavorites, setUserFavorites] = useLocalStorage("userFavorites", []) // list of yelp_ids -> user's favorited breweries
     const [userFavorites, setUserFavorites] = useState([]) // set page number -> for pagination and brewery index
-
+    const [favoritesList, setFavoritesList] = useState([]) // set page number -> for 
 
     useEffect(() => {
         if (token === false) {
@@ -33,15 +31,11 @@ export default function App() {
             setUserID(null);
             setUserName('');
             setUserFavorites([]);
-            console.debug(`📲📲 || app.jsx useEffect clear favorites state >>>`, userFavorites);
         }
     }, [token, setUserID, setUserName, setLoginStatus, setUserFavorites]);
 
 
-    const getUserFavorites = async () => {
-        let list = []
-
-        //[] GET USER FAVORITES
+    const getFavorites = async () => {
         let url = `${process.env.REACT_APP_FAVORITES_SERVICE_API_HOST}/favorites/${userID}`
         let config = {
             method: "GET",
@@ -50,46 +44,57 @@ export default function App() {
             },
         }
         const response = await fetch(url, config);
-
+        let favoritesdata = []
+    
         if (response.ok) {
-            //[] IF THAT WORKS SAVE AS FAVORITES DATA
-            let favoritesdata = await response.json();
 
-            //[] THEN LOOP THROUGH EACH ITEM AND REQUEST THE NAME
-            favoritesdata.forEach(async (obj) => {
-                let yelpurl = `${process.env.REACT_APP_YELP_API_SERVICE_API_HOST}/api/brewery?yelp_id=${obj.yelp_id}`
-                const responsetwo = await fetch(yelpurl);
+            let favoritesdata = await response.json()
 
-                if (responsetwo.ok) {
-                    // FOR EACH BREWERY, ADD NAME TO THE PROPERTY WHERE EACH ONE IS "OBJ"
-                    let brewerydata = await responsetwo.json();
-                    obj["name"] = brewerydata.name
-
-                    // ADD EACH OF THE ITEMS WITH THE NAME TO "LIST"
-                    list.push(obj)
-                    // console.debug(`🚦🚦 || userFavorites.forEach || obj`, obj);
-                } else {
-                    console.error(`🛑🛑 ERROR getting brewery name |`, response)
-                }
-            })
         } else {
             console.error(`🛑🛑 ERROR getting user favorites |`, response)
         }
-        console.log(`🚦🚦 || list after looping through breweries (not saving)`, list);
-        
-
-        setUserFavorites(list);
-        console.debug(`🖥 🖥 ||  User Favorites STATE >>`, userFavorites);
-    
+        setUserFavorites(favoritesdata);
+        getName()
+        console.debug(`🖥 🖥 ||  GET USER FAVORITES STATE >>`, favoritesdata);
     }
-
 
     useEffect(() => {
         if (userID && token) {
-            getUserFavorites()
+            getFavorites()
         }
-    }, [userID, token])
-    //!! CORRECT USE EFFECT
+    }, [userID, token, setUserFavorites])
+
+    const getName = () => {
+        
+        console.debug(`🖥 🖥 ||  GET NAME START -> FAVORITES LIST >>`, favoritesList);
+        favoritesList.forEach( async(obj) => {
+            let yelpurl = `${process.env.REACT_APP_YELP_API_SERVICE_API_HOST}/api/brewery?yelp_id=${obj.yelp_id}`
+
+            // FOR EACH BREWERY, ADD NAME TO THE PROPERTY WHERE EACH ONE IS "OBJ"
+            if (obj.hasOwnProperty('name') === false) {
+                const response = await fetch(yelpurl);
+                if (response.ok) {
+                    let brewerydata = await response.json();
+                    obj["name"] = brewerydata.name
+                    console.debug(`🚦🚦 || userFavorites.forEach || obj`, obj);
+                } else {
+                    console.error(`🛑🛑 ERROR getting brewery name |`, response)
+                }
+            }
+        })
+        setUserFavorites(favoritesList)
+
+        console.debug(`🚦🚦 || app.jsx getName after UPDATE ->`, userFavorites);
+    }
+
+    useEffect(() => {
+        if (userFavorites.length > 0){
+            getName()
+            console.debug(`🚦🚦 || app.jsx getNAME USEEFFECT->`, userFavorites);
+        }
+    }, [userFavorites, setUserFavorites])
+
+
 
     // !! from original fork & left for ref only -> remove before deployment
     /*
@@ -116,7 +121,6 @@ export default function App() {
       }, [])
     */
 
-    // [] pass props into components as required
     return (
         <div>
             <Routes>
@@ -140,6 +144,7 @@ export default function App() {
                             searchCity={searchCity} searchState={searchState}
                             loginStatus={loginStatus}
                             userFavorites={userFavorites} setUserFavorites={setUserFavorites}
+                            // userFavorites={userFavorites} setUserFavorites={setUserFavorites}
                             // userFavorites={userFavorites} setUserFavorites={setUserFavorites}
                             breweryYelpID={breweryYelpID} setBreweryYelpID={setBreweryYelpID}
                             userID={userID}
