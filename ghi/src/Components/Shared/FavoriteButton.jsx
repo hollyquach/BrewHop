@@ -1,8 +1,8 @@
 import Button from 'react-bootstrap/Button';
-import { useToken } from '../useToken'
+import { useAuthContext } from '../useToken'
 
 const FavoriteButton = ({ breweryYelpID, userFavorites, userID }) => {
-    const [token] = useToken();
+    const { token } = useAuthContext();
 
 
     const newUserFavorite = async (id) => {
@@ -22,8 +22,9 @@ const FavoriteButton = ({ breweryYelpID, userFavorites, userID }) => {
         const response = await fetch(url, config);
         if (response.ok) {
             await response.json();
+
         } else {
-            console.error(`🛑🛑 ERROR posting to user favorites |`, response);
+            console.error(`🛑🛑 ERROR creating favorite |`, response);
         }
     }
 
@@ -41,7 +42,7 @@ const FavoriteButton = ({ breweryYelpID, userFavorites, userID }) => {
         if (response.ok) {
             return alert("Success! Removed from favorites.")
         } else {
-            console.error("error")
+            console.error(`🛑🛑 ERROR deleting favorite |`, response)
         }
     }
 
@@ -59,13 +60,13 @@ const FavoriteButton = ({ breweryYelpID, userFavorites, userID }) => {
                     style={{ marginLeft: 10 }}
                     onClick={() => deleteFavorite(userFavorites[idx].id)}
                     variant="warning"
-                > ⭐️⭐️ </Button>
+                > ⭐️ </Button>
                 : <Button
                     className="float-right btn  btn-sm"
                     onClick={() => newUserFavorite(breweryYelpID)}
                     style={{ marginLeft: 10 }}
                     variant="outline-secondary"
-                > ★★ </Button>
+                > ★ </Button>
             }
         </>
     )

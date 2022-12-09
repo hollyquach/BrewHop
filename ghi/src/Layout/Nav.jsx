@@ -57,7 +57,7 @@ export default function Navigation({
     setShowLoginForm,
     setShowSignupForm
 }) {
-    const [ , , logout, , ] = useToken();
+    const [ , logout] = useToken();
     const handleShowLoginForm = () => setShowLoginForm(true);
     const handleShowSignupForm = () => setShowSignupForm(true);
     const handleLogout = async e => {

@@ -22,7 +22,7 @@ export default function AccountForm({
     setUserName,
     setUserID
 }) {
-    const [ , , , signup, ] = useToken();
+    const [ , , signup] = useToken();
     const [email, setEmail] = useState('');
     const [firstname, setFirstName] = useState('');
     const [lastname, setLastName] = useState('');
