@@ -22,19 +22,21 @@ export default function App() {
     const [showSignupForm, setShowSignupForm] = useState(false)
     const { token } = useAuthContext();
 
-    const [userFavorites, setUserFavorites] = useState([]) // set page number -> for pagination and brewery index
-    const [favoritesList, setFavoritesList] = useState([]) // set page number -> for 
+    const [userFavorites, setUserFavorites] = useState([]); // updating list to display of favorites in state
+    const [favoritesList, setFavoritesList] = useState([]); // user favorites list pulled at login
 
     useEffect(() => {
         if (token === false) {
             setLoginStatus(false)
             setUserID(null);
             setUserName('');
-            setUserFavorites([]);
+            // localStorage.setItem('favoritesList', JSON.stringify());
+            // localStorage.setItem('userFavorites', JSON.stringify());
         }
-    }, [token, setUserID, setUserName, setLoginStatus, setUserFavorites]);
+    }, [token, setUserID, setUserName, setLoginStatus]);
 
 
+    //> GET USER FAVORITES ON TOKEN & USER ID CHANGE -> LOGIN
     const getFavorites = async () => {
         let url = `${process.env.REACT_APP_FAVORITES_SERVICE_API_HOST}/favorites/${userID}`
         let config = {
@@ -45,29 +47,28 @@ export default function App() {
         }
         const response = await fetch(url, config);
         let favoritesdata = []
-    
-        if (response.ok) {
 
-            let favoritesdata = await response.json()
+        if (response.ok) {
+            favoritesdata = await response.json();
 
         } else {
             console.error(`🛑🛑 ERROR getting user favorites |`, response)
         }
-        setUserFavorites(favoritesdata);
-        getName()
+        setFavoritesList(favoritesdata);
+        getName(favoritesList);
         console.debug(`🖥 🖥 ||  GET USER FAVORITES STATE >>`, favoritesdata);
     }
-
+    
     useEffect(() => {
         if (userID && token) {
-            getFavorites()
+            getFavorites();
+            localStorage.setItem('favoritesList', JSON.stringify(favoritesList));
         }
-    }, [userID, token, setUserFavorites])
+    }, [userID, token])
 
-    const getName = () => {
-        
-        console.debug(`🖥 🖥 ||  GET NAME START -> FAVORITES LIST >>`, favoritesList);
-        favoritesList.forEach( async(obj) => {
+    const getName = (list) => {
+        console.debug(`🖥 🖥 ||  GET NAME START -> FAVORITES LIST >>`, list);
+        list.forEach(async (obj) => {
             let yelpurl = `${process.env.REACT_APP_YELP_API_SERVICE_API_HOST}/api/brewery?yelp_id=${obj.yelp_id}`
 
             // FOR EACH BREWERY, ADD NAME TO THE PROPERTY WHERE EACH ONE IS "OBJ"
@@ -76,24 +77,33 @@ export default function App() {
                 if (response.ok) {
                     let brewerydata = await response.json();
                     obj["name"] = brewerydata.name
-                    console.debug(`🚦🚦 || userFavorites.forEach || obj`, obj);
                 } else {
                     console.error(`🛑🛑 ERROR getting brewery name |`, response)
                 }
             }
         })
-        setUserFavorites(favoritesList)
-
-        console.debug(`🚦🚦 || app.jsx getName after UPDATE ->`, userFavorites);
+        setUserFavorites(list);
+        // let test2 = JSON.parse(localStorage.getItem('userFavorites'));
+        // console.debug(`🚦🚦 || getName || test`, test);
+        // console.debug(`🚦🚦 || getName || test2`, test2);
+        console.debug(`🚦🚦 || app.jsx getName after UPDATE USER FAVORITES->`, userFavorites);
     }
-
+    useEffect(() => {
+        if (userFavorites.length === 0) {
+            const storedUserFavorites = JSON.parse(localStorage.getItem('userFavorites'));
+            setUserFavorites(storedUserFavorites);
+            console.debug(`🚦🚦 || useEffect || storedUserFavorites`, storedUserFavorites);
+            getName(userFavorites);
+        }
+    }, [])
+        
     useEffect(() => {
         if (userFavorites.length > 0){
-            getName()
+            getName(userFavorites);
+            localStorage.setItem('userFavorites', JSON.stringify(userFavorites));
             console.debug(`🚦🚦 || app.jsx getNAME USEEFFECT->`, userFavorites);
         }
     }, [userFavorites, setUserFavorites])
-
 
 
     // !! from original fork & left for ref only -> remove before deployment
@@ -142,19 +152,16 @@ export default function App() {
                     <Route path="search/" element={
                         <Results
                             searchCity={searchCity} searchState={searchState}
-                            loginStatus={loginStatus}
+                            loginStatus={loginStatus} userID={userID}
                             userFavorites={userFavorites} setUserFavorites={setUserFavorites}
-                            // userFavorites={userFavorites} setUserFavorites={setUserFavorites}
-                            // userFavorites={userFavorites} setUserFavorites={setUserFavorites}
-                            breweryYelpID={breweryYelpID} setBreweryYelpID={setBreweryYelpID}
-                            userID={userID}
+                            setBreweryYelpID={setBreweryYelpID}
                         />
                     } />
                     <Route path="favorites/" element={
                         <Favorites
-                            loginStatus={loginStatus}
+                            loginStatus={loginStatus} userID={userID}
                             userFavorites={userFavorites} setUserFavorites={setUserFavorites}
-                            breweryYelpID={breweryYelpID} setBreweryYelpID={setBreweryYelpID}
+                            setBreweryYelpID={setBreweryYelpID}
                         />
                     } />
                     <Route path="brewery/" element={<Brewery yelpID={breweryYelpID} />} />
