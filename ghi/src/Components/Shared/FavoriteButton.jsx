@@ -1,5 +1,5 @@
 import Button from 'react-bootstrap/Button';
-import { useToken } from '../useToken'
+import { useAuthContext } from '../useToken'
 
 const FavoriteButton = ({ breweryYelpID, userFavorites, userID }) => {
     const { token } = useAuthContext();
