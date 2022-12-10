@@ -136,7 +136,12 @@ export default function App() {
               breweryYelpID={breweryYelpID} setBreweryYelpID={setBreweryYelpID}
             />
           } />
-          <Route path="brewery/" element={<Brewery yelpID={breweryYelpID} />} />
+          <Route path="brewery/" element={
+          <Brewery 
+          yelpID={breweryYelpID} 
+          loginStatus={loginStatus}
+          userFavorites={userFavorites}
+          userID={userID} />} />
           <Route path="*" element={<Invalid />} />
         </Route>
       </Routes>
