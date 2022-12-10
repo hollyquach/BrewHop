@@ -16,12 +16,10 @@ function GetToken() {
 }
 
 root.render(
-    <React.StrictMode>
-        <AuthProvider>
-            <BrowserRouter basename={basename}>
-                <GetToken />
-                <App />
-            </BrowserRouter>
-        </AuthProvider>
-    </React.StrictMode>
+    <AuthProvider>
+        <BrowserRouter basename={basename}>
+            <GetToken />
+            <App />
+        </BrowserRouter>
+    </AuthProvider>
 );
