@@ -1,9 +1,19 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import Card from 'react-bootstrap/Card';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import ListGroup from 'react-bootstrap/ListGroup';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import Loader from 'react-loaders';
+import FavoriteButton from '../../Components/Shared/FavoriteButton'
+import Button from "react-bootstrap/esm/Button";
 
-export default function Detail({ yelpID }) {
+export default function Detail({
+    yelpID,
+    loginStatus,
+    userFavorites,
+    userID }) {
     const [brewery, setData] = useState([]);
     const [isLoaded, setLoaded] = useState(false)
 
@@ -30,44 +40,79 @@ export default function Detail({ yelpID }) {
     return (
         <>
             {isLoaded ?
-                <div className='brewery-details'>
-                    <div className='text-area'>
-                        <h1 className='title'>
-                            {brewery.name}
-                        </h1>
-                            <img
-                                src={brewery.image_url}
-                                alt='brewery'
-                            />
-                        <h3>Address</h3>
-                        <p>{brewery.address.join(" ")}</p>
-                        <h3>Contact Info</h3>
-                        <p>{brewery.display_phone}</p>
-                        <h3>Hours</h3>
-                        <ul>
-                            {brewery.open.map(i => {
-                                return (
-                                    <li key={i}>{i}</li>
-                                )
-                            })}
-                        </ul>
-                    </div>
-                    <div className="map-container">
-                        <MapContainer center={[brewery.latitude, brewery.longitude]} 
-                        zoom={20} 
-                        scrollWheelZoom={true}>
-                            <TileLayer 
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                            <Marker position={[brewery.latitude, brewery.longitude]}>
-                                <Popup>
-                                    <p>{brewery.name} 
-                                    <br /> 
-                                    <span>{brewery.address.join(" ")}</span>
-                                    </p>
-                                </Popup>
-                            </Marker>
-                        </MapContainer>
-                    </div>
+                <div className="brewery-details">
+                    <Row className='justify-content-md-center'>
+                        <Col>
+                            <Card style={{ width: '100%' }} className='text-area'>
+                                <Card.Title className='title'>{brewery.name}</Card.Title>
+                                <Card.Img
+                                    src={brewery.image_url}
+                                    alt='brewery' />
+                                {loginStatus
+                                    ?
+                                    <>
+                                        <Button className="favorite-btn">
+                                            <FavoriteButton
+                                                breweryYelpID={yelpID}
+                                                userFavorites={userFavorites}
+                                                userID={userID}
+                                            />
+                                        </Button>
+                                        <span className="fav-text">Add to favorites?</span>
+                                    </>
+                                    :
+                                    <p></p>
+                                }
+                                <Card.Body>
+                                    <Card.Text as="h5">
+                                        <ListGroup variant="flush">
+                                            <ListGroup.Item>Address <br />
+                                                {brewery.address.join(" ")} <br />
+                                            </ListGroup.Item>
+                                        </ListGroup>
+                                    </Card.Text>
+                                    <Card.Text as="h5">
+                                        <ListGroup variant="flush">
+                                            <ListGroup.Item>
+                                                Contact Information <br />
+                                                {brewery.display_phone}
+                                            </ListGroup.Item>
+                                        </ListGroup>
+                                    </Card.Text>
+                                    <Card.Text as="h5">
+                                        <ListGroup variant="flush">
+                                            <ListGroup.Item>
+                                                Brewery hours <br />
+                                                {brewery.open.map(i => {
+                                                    return (
+                                                        <li key={i}>{i}</li>
+                                                    )
+                                                })}
+                                            </ListGroup.Item>
+                                        </ListGroup>
+                                    </Card.Text>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                        <Col>
+                            <Card className="map-container">
+                                <MapContainer center={[brewery.latitude, brewery.longitude]}
+                                    zoom={20}
+                                    scrollWheelZoom={true}>
+                                    <TileLayer
+                                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                                    <Marker position={[brewery.latitude, brewery.longitude]}>
+                                        <Popup>
+                                            <p>{brewery.name}
+                                                <br />
+                                                <span>{brewery.address.join(" ")}</span>
+                                            </p>
+                                        </Popup>
+                                    </Marker>
+                                </MapContainer>
+                            </Card>
+                        </Col>
+                    </Row>
                 </div>
                 :
                 <Loader type="line-scale-pulse-out" />

@@ -1,29 +1,43 @@
-html {
-    background: #282c34;
-}
-
 .brewery-details {
-
+    background-color: #282c34;
+    align-items: center;
+    text-align: center;
     .title {
-        margin-left: auto;
         text-decoration: underline;
+        color: #FFCD45;
     }
     .text-area {
-        position: fixed;
-        color:#FFCD45;
-        font-size: 19px;
-        left: 15%;
-        bottom: 100px;
-        animation: fadeIn 1s;
-        border: 2px solid #FFCD45;
-        border-radius: 25px;
-        padding: 20px;
-        padding-right: 50%;
+        background-color: #282c34;
+        color: #FFCD45;
+        transform: scale(0.95);
 
+        .fav-text {
+            display: none;
+        }
 
-        img {
-            height: 250px;
-            width: 300px;
+        .favorite-btn {
+            max-width: 18mm;
+            background: transparent;
+            border: transparent;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin: auto;
+        }
+
+        .favorite-btn:hover + .fav-text {
+            display: block;
+            animation: fadeIn 1s;
+        }
+
+        .list-group-item {
+            background-color: #282c34;
+        }
+
+        .card-img {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: fit-content;
+            max-height: 375px;
             border-color: #FFCD45;
             border: solid 2px;
             border-radius: 25px;
@@ -35,17 +49,15 @@ html {
 .map-container {
     background: #FFCD45;
     border-radius: 25px;
-    position: fixed;
-    right: 320px;
-    bottom: 350px;
-    width: 40%;
-    height: 500px;
-    padding: 5px;
+    margin-left: 99px;
+    margin-top: 20px;
+    height: 80%;
+    width: 80%;
     animation: fadeIn 1s;
 }
 .leaflet-container {
     width: 100%;
     height: 100%;
-    position: relative;
+    overflow: hidden;
     border-radius: 25px;
 }

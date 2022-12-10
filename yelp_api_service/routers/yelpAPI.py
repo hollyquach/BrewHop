@@ -89,6 +89,10 @@ async def get_brewery_list(
     return result
 
 
+def getfeatured():
+    return get_featured
+
+
 @router.get("/api/featured", response_model=FeaturedBreweries)
 async def get_featured():
     """
