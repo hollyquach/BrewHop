@@ -34,7 +34,7 @@ def get_all(
 def get_all_for_user(
     user_id: int,
     repo: FavoriteRepository = Depends(),
-    account_data: dict = Depends(get_current_user),
+    # account_data: dict = Depends(get_current_user),
 ) -> FavoriteOut:
     return repo.get_all_for_user(user_id)
 

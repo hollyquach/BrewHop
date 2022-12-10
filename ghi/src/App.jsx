@@ -12,33 +12,32 @@ import { useAuthContext } from './Components/useToken.js'
 
 
 export default function App() {
-  const [searchCity, setSearchCity] = useSessionStorage("searchCity", '') // search param - user input in search form -> results
-  const [searchState, setSearchState] = useSessionStorage("searchState", '') // search param - user input in search form -> results
-  const [loginStatus, setLoginStatus] = useLocalStorage("loginStatus", false)
-  const [userID, setUserID] = useLocalStorage("userID", null) // int of userID
-  const [userName, setUserName] = useLocalStorage("userName", '')
-  const [userFavorites, setUserFavorites] = useLocalStorage("userFavorites", []) // list of yelp_ids -> user's favorited breweries
-  const [breweryYelpID, setBreweryYelpID] = useSessionStorage("breweryYelpID", '') // string of a single yelp ID
-  const [showLoginForm, setShowLoginForm] = useState(false)
-  const [showSignupForm, setShowSignupForm] = useState(false)
-  const { token } = useAuthContext();
+    const [searchCity, setSearchCity] = useSessionStorage("searchCity", '') // search param - user input in search form -> results
+    const [searchState, setSearchState] = useSessionStorage("searchState", '') // search param - user input in search form -> results
+    const [loginStatus, setLoginStatus] = useLocalStorage("loginStatus", false)
+    const [userID, setUserID] = useLocalStorage("userID", null) // int of userID
+    const [userName, setUserName] = useLocalStorage("userName", '')
+    const [breweryYelpID, setBreweryYelpID] = useSessionStorage("breweryYelpID", '') // string of a single yelp ID
+    const [showLoginForm, setShowLoginForm] = useState(false)
+    const [showSignupForm, setShowSignupForm] = useState(false)
+    const { token } = useAuthContext();
+
+    const [userFavorites, setUserFavorites] = useState([]); // updating list to display of favorites in state
+    const [favoritesList, setFavoritesList] = useState([]); // user favorites list pulled at login
 
     useEffect(() => {
         if (token === false) {
             setLoginStatus(false)
             setUserID(null);
             setUserName('');
-            setUserFavorites([]);
-            console.debug(`📲📲 || app.jsx useEffect clear favorites state >>>`, userFavorites);
+            // localStorage.setItem('favoritesList', JSON.stringify());
+            // localStorage.setItem('userFavorites', JSON.stringify());
         }
-    }, [token, setUserID, setUserName, setLoginStatus, setUserFavorites]);
+    }, [token, setUserID, setUserName, setLoginStatus]);
 
 
-  useEffect(() => {
-    const getUserFavorites = async () => {
-        let list = []
-
-        //[] GET USER FAVORITES
+    //> GET USER FAVORITES ON TOKEN & USER ID CHANGE -> LOGIN
+    const getFavorites = async () => {
         let url = `${process.env.REACT_APP_FAVORITES_SERVICE_API_HOST}/favorites/${userID}`
         let config = {
             method: "GET",
@@ -47,46 +46,65 @@ export default function App() {
             },
         }
         const response = await fetch(url, config);
+        let favoritesdata = []
 
         if (response.ok) {
-            //[] IF THAT WORKS SAVE AS FAVORITES DATA
-            let favoritesdata = await response.json();
+            favoritesdata = await response.json();
 
-            //[] THEN LOOP THROUGH EACH ITEM AND REQUEST THE NAME
-            favoritesdata.forEach(async (obj) => {
-                let yelpurl = `${process.env.REACT_APP_YELP_API_SERVICE_API_HOST}/api/brewery?yelp_id=${obj.yelp_id}`
-                const responsetwo = await fetch(yelpurl);
-
-                if (responsetwo.ok) {
-                    // FOR EACH BREWERY, ADD NAME TO THE PROPERTY WHERE EACH ONE IS "OBJ"
-                    let brewerydata = await responsetwo.json();
-                    obj["name"] = brewerydata.name
-
-                    // ADD EACH OF THE ITEMS WITH THE NAME TO "LIST"
-                    list.push(obj)
-                    // console.debug(`🚦🚦 || userFavorites.forEach || obj`, obj);
-                } else {
-                    console.error(`🛑🛑 ERROR getting brewery name |`, response)
-                }
-            })
         } else {
             console.error(`🛑🛑 ERROR getting user favorites |`, response)
         }
-        console.log(`🚦🚦 || list after looping through breweries (not saving)`, list);
-        
-
-        setUserFavorites(list);
-        console.debug(`🖥 🖥 ||  User Favorites STATE >>`, userFavorites);
-    
+        setFavoritesList(favoritesdata);
+        getName(favoritesList);
+        console.debug(`🖥 🖥 ||  GET USER FAVORITES STATE >>`, favoritesdata);
     }
-
-
+    
     useEffect(() => {
         if (userID && token) {
-            getUserFavorites()
+            getFavorites();
+            localStorage.setItem('favoritesList', JSON.stringify(favoritesList));
         }
     }, [userID, token])
-    //!! CORRECT USE EFFECT
+
+    const getName = (list) => {
+        console.debug(`🖥 🖥 ||  GET NAME START -> FAVORITES LIST >>`, list);
+        list.forEach(async (obj) => {
+            let yelpurl = `${process.env.REACT_APP_YELP_API_SERVICE_API_HOST}/api/brewery?yelp_id=${obj.yelp_id}`
+
+            // FOR EACH BREWERY, ADD NAME TO THE PROPERTY WHERE EACH ONE IS "OBJ"
+            if (obj.hasOwnProperty('name') === false) {
+                const response = await fetch(yelpurl);
+                if (response.ok) {
+                    let brewerydata = await response.json();
+                    obj["name"] = brewerydata.name
+                } else {
+                    console.error(`🛑🛑 ERROR getting brewery name |`, response)
+                }
+            }
+        })
+        setUserFavorites(list);
+        // let test2 = JSON.parse(localStorage.getItem('userFavorites'));
+        // console.debug(`🚦🚦 || getName || test`, test);
+        // console.debug(`🚦🚦 || getName || test2`, test2);
+        console.debug(`🚦🚦 || app.jsx getName after UPDATE USER FAVORITES->`, userFavorites);
+    }
+    useEffect(() => {
+        if (userFavorites.length === 0) {
+            const storedUserFavorites = JSON.parse(localStorage.getItem('userFavorites'));
+            setUserFavorites(storedUserFavorites);
+            console.debug(`🚦🚦 || useEffect || storedUserFavorites`, storedUserFavorites);
+            getName(userFavorites);
+        }
+    }, [])
+        
+    useEffect(() => {
+        if (userFavorites.length > 0){
+            getName(userFavorites);
+            localStorage.setItem('userFavorites', JSON.stringify(userFavorites));
+            console.debug(`🚦🚦 || app.jsx getNAME USEEFFECT->`, userFavorites);
+        }
+    }, [userFavorites, setUserFavorites])
+
 
     // !! from original fork & left for ref only -> remove before deployment
     /*
@@ -113,44 +131,43 @@ export default function App() {
       }, [])
     */
 
-  return (
-    <div>
-      <Routes>
-        <Route path="/" element={<Layout
-          setSearchCity={setSearchCity}
-          setSearchState={setSearchState}
-          loginStatus={loginStatus}
-          setLoginStatus={setLoginStatus}
-          showSignupForm={showSignupForm}
-          setShowSignupForm={setShowSignupForm}
-          showLoginForm={showLoginForm}
-          setShowLoginForm={setShowLoginForm}
-          userName={userName}
-          setUserName={setUserName}
-          userID={userID}
-          setUserID={setUserID}
-        />} >
-          <Route index element={<Featured setID={setBreweryYelpID} />} />
-          <Route path="search/" element={
-            <Results
-              searchCity={searchCity} searchState={searchState}
-              loginStatus={loginStatus}
-              userFavorites={userFavorites} setUserFavorites={setUserFavorites}
-              breweryYelpID={breweryYelpID} setBreweryYelpID={setBreweryYelpID}
-              userID={userID}
-            />
-          } />
-          <Route path="favorites/" element={
-            <Favorites
-              loginStatus={loginStatus}
-              userFavorites={userFavorites} setUserFavorites={setUserFavorites}
-              breweryYelpID={breweryYelpID} setBreweryYelpID={setBreweryYelpID}
-            />
-          } />
-          <Route path="brewery/" element={<Brewery yelpID={breweryYelpID} />} />
-          <Route path="*" element={<Invalid />} />
-        </Route>
-      </Routes>
-    </div>
-  );
+    return (
+        <div>
+            <Routes>
+                <Route path="/" element={<Layout
+                    setSearchCity={setSearchCity}
+                    setSearchState={setSearchState}
+                    loginStatus={loginStatus}
+                    setLoginStatus={setLoginStatus}
+                    showSignupForm={showSignupForm}
+                    setShowSignupForm={setShowSignupForm}
+                    showLoginForm={showLoginForm}
+                    setShowLoginForm={setShowLoginForm}
+                    userName={userName}
+                    setUserName={setUserName}
+                    userID={userID}
+                    setUserID={setUserID}
+                />} >
+                    <Route index element={<Featured setID={setBreweryYelpID} />} />
+                    <Route path="search/" element={
+                        <Results
+                            searchCity={searchCity} searchState={searchState}
+                            loginStatus={loginStatus} userID={userID}
+                            userFavorites={userFavorites} setUserFavorites={setUserFavorites}
+                            setBreweryYelpID={setBreweryYelpID}
+                        />
+                    } />
+                    <Route path="favorites/" element={
+                        <Favorites
+                            loginStatus={loginStatus} userID={userID}
+                            userFavorites={userFavorites} setUserFavorites={setUserFavorites}
+                            setBreweryYelpID={setBreweryYelpID}
+                        />
+                    } />
+                    <Route path="brewery/" element={<Brewery yelpID={breweryYelpID} />} />
+                    <Route path="*" element={<Invalid />} />
+                </Route>
+            </Routes>
+        </div>
+    );
 }

@@ -21,8 +21,8 @@ const FavoriteButton = ({ breweryYelpID, userFavorites, userID }) => {
         }
         const response = await fetch(url, config);
         if (response.ok) {
-            await response.json();
-
+            let data = await response.json();
+            setUserFavorites((list) => [...list, data])
         } else {
             console.error(`🛑🛑 ERROR creating favorite |`, response);
         }
@@ -40,7 +40,7 @@ const FavoriteButton = ({ breweryYelpID, userFavorites, userID }) => {
         }
         let response = await fetch(url, config)
         if (response.ok) {
-            return alert("Success! Removed from favorites.")
+            setUserFavorites((current) => current.filter((brewery)=> brewery.yelp_id !== breweryYelpID ))
         } else {
             console.error(`🛑🛑 ERROR deleting favorite |`, response)
         }
