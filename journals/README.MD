@@ -1,7 +1,7 @@
 ## Journals
 
-Please keep all of your individual journals in this directory.
+This directory contains all of the journal entries from the duration of the project.
 
-Each team member is required to keep a development journal, which should be a single markdown file with an entry for each day the project was worked on.
+Each team member kept a development journal.
 
-Recommended naming convention is `first_last.md`.
+The file naming convention is `first_last.md`.
