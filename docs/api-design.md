@@ -1,4 +1,34 @@
-# API Design
+## API Design
+API Design (Updated 12/12/22)
+*See collapse at bottom of document for initial planning API design*
+
+### Yelp API Service
+API Reference: https://brewhop-yelp-api-service.onrender.com/redoc
+
+* Hits Yelp Fusion API with parameters passed from Front-End inputs to return data based on brewery search parameters
+* Built on FastAPI
+* Runs within a Docker container deployed on Render.com
+</br>
+
+### Accounts Service
+API Reference: https://brewhop-accounts-service.onrender.com/redoc
+
+* Stores and returns user account data for the entire site
+* Utilizes JWT token authentication
+* Built on FastAPI
+* Runs within a Docker container deployed on Render.com
+* Stores and queries data from a PostgreSQL database running on ElephantSQL.com
+
+### Favorites Service
+API Reference: https://brewhop-favorites-service.onrender.com/redoc
+
+* Stores and returns user favorites data for the entire site
+* Built on FastAPI
+* Runs within a Docker container deployed on Render.com
+* Stores and queries data from a PostgreSQL database running on ElephantSQL.com
+</br>
+
+<details><summary>API Design (Historical, from initial project planning)</summary>
 
 ### Home (/)
 * Page Overview
@@ -187,3 +217,4 @@
         }
         ```
 <br>
+</details>
