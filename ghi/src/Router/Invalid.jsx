@@ -7,7 +7,7 @@ export default function Invalid() {
             <header className="App-header">
                 <img
                     alt="A Greyhound named Rocky"
-                    src={`${process.env.PUBLIC_URL}/Rocky.png`}
+                    src={`${process.env.PUBLIC_URL}/rocky.png`}
                     height="400"
                 />
                 <p>Move along - nothing to see here except Rocky!</p>
