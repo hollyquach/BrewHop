@@ -1,4 +1,4 @@
-## Journals
+## Team-Member Journal Entries
 
 This directory contains all of the journal entries from the duration of the project.
 
