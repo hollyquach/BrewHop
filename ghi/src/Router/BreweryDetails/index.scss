@@ -8,8 +8,10 @@
     }
     .text-area {
         background-color: #282c34;
+        border: transparent;
         color: #FFCD45;
-        transform: scale(0.95);
+        transform: scale(0.90);
+        bottom: 46px;
 
         .fav-text {
             display: none;
