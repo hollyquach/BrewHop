@@ -6,18 +6,18 @@ import Loader from 'react-loaders';
 
 export default function Results({
     searchCity, searchState,
-    loginStatus,
-    userFavorites, setUserFavorites,
-    breweryYelpID, setBreweryYelpID, userID
+    loginStatus, userID,
+    setBreweryYelpID
 }) {
-    const [breweries, setBreweries] = useState([]) // store brewery data from search
-    const [currentPage, setCurrentPage] = useState(1) // set page number -> for pagination and brewery index
+    const [breweries, setBreweries] = useState([])
+    const [currentPage, setCurrentPage] = useState(1) // -> for pagination and brewery index
     const [isLoading, setIsLoading] = useState(true)
     const pageSize = 5
 
 
     useEffect(() => {
         setIsLoading(true);
+
         const getData = async () => {
 
             let url = `${process.env.REACT_APP_YELP_API_SERVICE_API_HOST}/api/breweries?city=${searchCity}&state=${searchState}`
@@ -32,10 +32,17 @@ export default function Results({
             }
             setIsLoading(false);
         }
-        getData();
+
+
+        //return includes to enter inputs for search if not included
+        if (searchCity && searchState) {
+            getData();
+        } else {
+            setIsLoading(false);
+        }
     }, [searchCity, searchState]);
 
-    //> Filters list of breweries by page number
+
     const currentBreweries = useMemo(() => {
         const firstIdx = (currentPage - 1) * pageSize;
         const lastIdx = firstIdx + pageSize;
@@ -81,12 +88,10 @@ export default function Results({
                                             </div>
                                         </div>
                                         <BreweryList
-                                            breweries={currentBreweries}
-                                            loginStatus={loginStatus}
-                                            userFavorites={userFavorites}
-                                            breweryYelpID={breweryYelpID}
-                                            setBreweryYelpID={setBreweryYelpID}
                                             userID={userID}
+                                            loginStatus={loginStatus}
+                                            breweries={currentBreweries}
+                                            setBreweryYelpID={setBreweryYelpID}
                                         />
                                         <Pages
                                             itemsCount={breweries.length}
