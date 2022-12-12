@@ -17,14 +17,12 @@ function GetToken() {
 }
 
 root.render(
-    <React.StrictMode>
-        <AuthProvider>
-            <FavoritesProvider>
-                <BrowserRouter basename={basename}>
-                    <GetToken />
-                    <App />
-                </BrowserRouter>
-            </FavoritesProvider>
-        </AuthProvider>
-    </React.StrictMode>
+    <AuthProvider>
+        <FavoritesProvider>
+            <BrowserRouter basename={basename}>
+                <GetToken />
+                <App />
+            </BrowserRouter>
+        </FavoritesProvider>
+    </AuthProvider>
 );
