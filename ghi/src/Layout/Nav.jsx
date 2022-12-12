@@ -53,15 +53,19 @@ export default function Navigation({
     searchState,
     setSearchState,
     loginStatus,
+    setLoginStatus,
     userName,
     setShowLoginForm,
     setShowSignupForm
 }) {
-    const [ , logout] = useToken();
+    const [, logout] = useToken();
     const handleShowLoginForm = () => setShowLoginForm(true);
     const handleShowSignupForm = () => setShowSignupForm(true);
     const handleLogout = async e => {
         e.preventDefault();
+        /* handle status update before logout to prevent
+        401 responses from useToken looping fetch calls */
+        setLoginStatus(false);
         await logout();
     }
 
