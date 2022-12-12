@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import States from './States';
 
 
-export default function Search({setSearchCity, setSearchState}) {
+export default function Search({ setSearchCity, setSearchState }) {
     const [inputCity, setInputCity] = useState('')
     const [inputState, setInputState] = useState('')
     const navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function Search({setSearchCity, setSearchState}) {
                 />
                 <States inputState={inputState} setInputState={setInputState} />
                 <button
-                    className="btn btn-outline-secondary"
+                    className="btn btn-outline-secondary ml-2 mr-2"
                     onClick={e => {
                         e.preventDefault();
                         navigate('search/');
@@ -34,6 +34,6 @@ export default function Search({setSearchCity, setSearchState}) {
                     Search
                 </button>
             </div>
-        </form>
+        </form >
     )
 };
