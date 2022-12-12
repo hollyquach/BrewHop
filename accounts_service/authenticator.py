@@ -19,7 +19,6 @@ class MyAuthenticator(Authenticator):
         return accounts
 
     def get_hashed_password(self, accounts: Accounts):
-        print("accounts", accounts)
         return accounts.hashed_password
 
 

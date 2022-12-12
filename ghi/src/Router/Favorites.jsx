@@ -66,8 +66,6 @@ export default function Favorites({
                                             loginStatus={loginStatus}
                                             breweries={currentBreweries}
                                             setBreweryYelpID={setBreweryYelpID}
-                                        // userFavorites={userFavorites}
-                                        // setUserFavorites={setUserFavorites}
                                         />
                                         <Pages
                                             itemsCount={userFavorites.length}

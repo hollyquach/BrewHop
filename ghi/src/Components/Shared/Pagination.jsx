@@ -3,7 +3,6 @@ import './List.scss';
 
 const Pages = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
     const pagesCount = Math.ceil(itemsCount / pageSize)
-    // if (pagesCount === 1) return null
     const pages = [...Array(pagesCount).keys()].map((n) => n + 1)
 
     return (

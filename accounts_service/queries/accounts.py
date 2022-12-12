@@ -55,6 +55,7 @@ class AccountsRepository:
                     """,
                     [email],
                 )
+                connection.close()
                 record = result.fetchone()
                 if record is None:
                     return None
@@ -66,9 +67,7 @@ class AccountsRepository:
                     email=record[3],
                     hashed_password=record[4],
                 )
-            connection.close()
-        except Exception as e:
-            print(e)
+        except Exception:
             return {"message": "Could not get that accounts"}
 
     def get_all(self) -> Union[Error, List[AccountsOut]]:
@@ -87,6 +86,7 @@ class AccountsRepository:
                         ORDER BY last_name;
                     """
                 )
+                connection.close()
                 return [
                     AccountsOut(
                         id=record[0],
@@ -97,9 +97,7 @@ class AccountsRepository:
                     )
                     for record in db
                 ]
-            connection.close()
-        except Exception as e:
-            print(e)
+        except Exception:
             return {"message": "Could not get all accounts"}
 
     def create(self, accounts: AccountsIn, hashed_password: str) -> Accounts:
@@ -120,6 +118,7 @@ class AccountsRepository:
                     hashed_password,
                 ],
             )
+            connection.close()
             id = result.fetchone()[0]
             return Accounts(
                 id=id,
@@ -128,7 +127,6 @@ class AccountsRepository:
                 email=accounts.email,
                 hashed_password=hashed_password,
             )
-        connection.close()
 
     def delete(self, accounts_id: int) -> bool:
         try:
@@ -141,17 +139,7 @@ class AccountsRepository:
                     """,
                     [accounts_id],
                 )
+                connection.close()
                 return True
-            connection.close()
-        except Exception as e:
-            print(e)
+        except Exception:
             return False
-
-    # def record_to_accounts_out(self, record):
-    #     return AccountsOut(
-    #         id=record[0],
-    #         first_name=record[1],
-    #         last_name=record[2],
-    #         email=record[3],
-    #         hashed_password=record[4],
-    #     )

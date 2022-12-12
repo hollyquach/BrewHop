@@ -2,7 +2,7 @@ import React from 'react';
 import states from '../assets/usstates';
 
 
-export default function State({inputState, setInputState}) {
+export default function State({ inputState, setInputState }) {
     return (
         <select
             required

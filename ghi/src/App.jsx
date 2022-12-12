@@ -12,12 +12,12 @@ import { useAuthContext } from './Hooks/useToken.js'
 import { useFavoritesContext } from './Hooks/useFavorites';
 
 export default function App() {
-    const [searchCity, setSearchCity] = useSessionStorage("searchCity", '') // -> search results
-    const [searchState, setSearchState] = useSessionStorage("searchState", '') // -> search results
-    const [loginStatus, setLoginStatus] = useLocalStorage("loginStatus", false) // -> search results & favorites list
-    const [userID, setUserID] = useLocalStorage("userID", null) // int of userID
+    const [searchCity, setSearchCity] = useSessionStorage("searchCity", '')
+    const [searchState, setSearchState] = useSessionStorage("searchState", '')
+    const [loginStatus, setLoginStatus] = useLocalStorage("loginStatus", false)
+    const [userID, setUserID] = useLocalStorage("userID", null)
     const [userName, setUserName] = useLocalStorage("userName", '')
-    const [breweryYelpID, setBreweryYelpID] = useSessionStorage("breweryYelpID", '') // string of a single yelp ID
+    const [breweryYelpID, setBreweryYelpID] = useSessionStorage("breweryYelpID", '')
     const [showLoginForm, setShowLoginForm] = useState(false)
     const [showSignupForm, setShowSignupForm] = useState(false)
     const { token } = useAuthContext();
