@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useToken } from "../Components/useToken";
+import { useToken } from "../Hooks/useToken";
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Search from '../Components/Search'

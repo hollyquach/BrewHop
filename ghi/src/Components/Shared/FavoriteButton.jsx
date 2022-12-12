@@ -1,11 +1,19 @@
 import Button from 'react-bootstrap/Button';
-import { useAuthContext } from '../useToken'
+import { useAuthContext } from "../../Hooks/useToken";
+import { useState } from "react";
+import { useFavoritesContext, getBreweryName } from '../../Hooks/useFavorites';
+import Spinner from 'react-bootstrap/Spinner';
 
-const FavoriteButton = ({ breweryYelpID, userFavorites, userID }) => {
+const FavoriteButton = ({
+    breweryYelpID,
+    userID
+}) => {
     const { token } = useAuthContext();
-
+    const { userFavorites, setUserFavorites } = useFavoritesContext();
+    const [showSpinner, setSpinner] = useState(false);
 
     const newUserFavorite = async (id) => {
+        setSpinner(true)
         let url = `${process.env.REACT_APP_FAVORITES_SERVICE_API_HOST}/favorites/`
         let config = {
             method: "POST",
@@ -21,15 +29,18 @@ const FavoriteButton = ({ breweryYelpID, userFavorites, userID }) => {
         }
         const response = await fetch(url, config);
         if (response.ok) {
-            await response.json();
-
+            let brewery = await response.json();
+            brewery["name"] = await getBreweryName(brewery.yelp_id)
+            setUserFavorites((list) => [...list, brewery])
         } else {
             console.error(`🛑🛑 ERROR creating favorite |`, response);
         }
+        setSpinner(false)
     }
 
 
     const deleteFavorite = async (id) => {
+        setSpinner(true)
         let url = `${process.env.REACT_APP_FAVORITES_SERVICE_API_HOST}/favorites/${id}`
         let config = {
             method: 'DELETE',
@@ -40,9 +51,12 @@ const FavoriteButton = ({ breweryYelpID, userFavorites, userID }) => {
         }
         let response = await fetch(url, config)
         if (response.ok) {
-            return alert("Success! Removed from favorites.")
+            window.setTimeout(() => {
+                setUserFavorites((current) => current.filter((brewery) => brewery.yelp_id !== breweryYelpID))
+                setSpinner(false)
+            }, 250);
         } else {
-            console.error(`🛑🛑 ERROR deleting favorite |`, response)
+            console.error("error")
         }
     }
 
@@ -68,6 +82,11 @@ const FavoriteButton = ({ breweryYelpID, userFavorites, userID }) => {
                     variant="outline-secondary"
                 > ★ </Button>
             }
+            <Spinner
+                className={showSpinner === true ? "float-right mx-2" : "d-none"}
+                animation="border"
+                variant="secondary"
+            />
         </>
     )
 }

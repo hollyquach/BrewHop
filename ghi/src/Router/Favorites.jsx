@@ -3,15 +3,16 @@ import BreweryList from '../Components/Shared/BreweryList'
 import Pages from '../Components/Shared/Pagination'
 import '../Components/Shared/List.scss';
 import Loader from 'react-loaders';
+import { useFavoritesContext } from '../Hooks/useFavorites';
 
 export default function Favorites({
-    loginStatus,
-    userFavorites, setUserFavorites,
-    breweryYelpID, setBreweryYelpID
+    loginStatus, userID,
+    setBreweryYelpID
 }) {
     const [currentPage, setCurrentPage] = useState(1) // set page number -> for pagination and brewery index
     const [isLoading, setIsLoading] = useState(true)
     const pageSize = 5
+    const { userFavorites } = useFavoritesContext();
 
 
     //> Filters list of breweries by page number
@@ -61,11 +62,12 @@ export default function Favorites({
                                             </div>
                                         </div>
                                         <BreweryList
-                                            breweries={currentBreweries}
+                                            userID={userID}
                                             loginStatus={loginStatus}
-                                            userFavorites={userFavorites}
-                                            breweryYelpID={breweryYelpID}
+                                            breweries={currentBreweries}
                                             setBreweryYelpID={setBreweryYelpID}
+                                        // userFavorites={userFavorites}
+                                        // setUserFavorites={setUserFavorites}
                                         />
                                         <Pages
                                             itemsCount={userFavorites.length}
