@@ -3,45 +3,78 @@
 BrewHop is a web application to help 21+ customers find breweries in areas around the United States!
 
 ### Key Features - 🏅MVP
+
 1. Search functionality to search for brewery by location
 2. View details about specific breweries from search list
-    - Open hours
-    - Location detail → address & mini map
-    - Phone number
-    - Description
+   - Open hours
+   - Location detail → address & mini map
+   - Phone number
+   - Description
 3. Favorites List -> if user has an account
-    - Starred within details page
-    - Option to remove favorite
-    - Links to brewery detail
+   - Starred within details page
+   - Option to remove favorite
+   - Links to brewery detail
 
 ---
+
+### Live Demo
+
+View a live demo of this project here: https://brewhoppers.gitlab.io/brew-hop
+
+#### Demo configuration
+
+| Service                     | Hosts                                          |
+| --------------------------- | ---------------------------------------------- |
+| accounts                    | https://brewhop-accounts-service.onrender.com  |
+| favorites                   | https://brewhop-favorites-service.onrender.com |
+| yelp_api                    | https://brewhop-yelp-api-service.onrender.com  |
+| accounts postgres database  | https://hansken.db.elephantsql.com/tdwvedue    |
+| favorites postgres database | https://hansken.db.elephantsql.com/xwrkxzsv    |
+
+---
+
 ## Installation
+
+1. Fork repository
+2. Clone repository to local: `git clone https://gitlab.com/brewhoppers/brew-hop`
+3. cd into new project directory
+4. Add env file
+   - create yelp api key from yelp api, and add api key as 'YELP_API_KEY' in env file
+   - generate a hs256 signing key and add as 'SIGNING_KEY' in env file
+5. Run: `docker volume create postgres-data`
+6. Run: `docker compose build `
+7. Run: `docker compose up `
+
 ### Requirements
+
 1. Python 3
 2. Docker Desktop
 3. VS Code
-
-[] Install instructions
+4. FastAPI
+5. A database compatible with PostgreSQL databases
 
 ---
 
 ## Design
+
 - [Data Model](docs/datamodel.md)
 - [GHI](docs/ghi.md)
 - [API Design](docs/api-design.md)
 
 ### Configuration
-| Service | Image | Ports |
-| --- | --- | --- |
-| accounts | brew-hop-accounts | 8000 |
-| favorites | brew-hop-accounts | 8001 |
-| yelp_api | brew-hop-accounts | 8002 |
-| ghi | node:lts-bullseye | 3000 |
-| postgres | brew-hop-postgres | 15432 |
+
+| Service   | Image             | Ports |
+| --------- | ----------------- | ----- |
+| accounts  | brew-hop-accounts | 8000  |
+| favorites | brew-hop-accounts | 8001  |
+| yelp_api  | brew-hop-accounts | 8002  |
+| ghi       | node:lts-bullseye | 3000  |
+| postgres  | brew-hop-postgres | 15432 |
 
 ---
 
 ## Maintainers
+
 - @hollyquach
 - @jwpettit
 - @Seanii86
@@ -143,7 +176,7 @@ deployment, but it just consists of these steps:
 * make sure this project is in a group. If it isn't, stop
   now and move it to a GitLab group
 * remove the fork relationship: In GitLab go to:
-  
+
   Settings -> General -> Advanced -> Remove fork relationship
 
 * add these GitLab CI/CD variables:

@@ -1,6 +1,36 @@
+<div align='center'>
+
 # User Interface
 
-## Wireframes
+[Wireframe History](#wireframe-history)
+
+### [BrewHop](https://brewhoppers.gitlab.io/brew-hop) includes these graphical human interfaces or GHIs.
+
+Landing Page:
+![](deployed/landing-page.png)
+
+Sign-up form:
+![](deployed/sign-up-form.png)
+
+Login form:
+![](deployed/login-form.png)
+
+Details page:
+![](deployed/details-page.png)
+
+Search results:
+![](deployed/search-results.png)
+
+User favorites:
+![](deployed/user-favorites-list.png)
+
+Invalid url page:
+![](deployed/invalid-url-page.png)
+
+## Wireframe History
+
+<details>
+<summary>History</summary>
 
 ### Home Page
 This will be the home page of the website which will include three breweries from a featured major city.
@@ -28,3 +58,9 @@ This page will display for invalid URLs.
 
 ### ***FOR REFERENCE*** User Flow & Design Notes
 ![User Flow & Design Notes Image](wireframes/userflow_notes.png)
+
+[Back to top](#user-interface)
+
+</details>
+
+</div>
