@@ -7,7 +7,6 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import Loader from 'react-loaders';
 import FavoriteButton from '../../Components/Shared/FavoriteButton'
-import Button from "react-bootstrap/esm/Button";
 
 export default function Detail({
     yelpID,
@@ -51,13 +50,13 @@ export default function Detail({
                                 {loginStatus
                                     ?
                                     <>
-                                        <Button className="favorite-btn">
+                                        <div className="favorite-btn">
                                             <FavoriteButton
                                                 breweryYelpID={yelpID}
                                                 userFavorites={userFavorites}
                                                 userID={userID}
                                             />
-                                        </Button>
+                                        </div>
                                         <span className="fav-text">Add to favorites?</span>
                                     </>
                                     :
