@@ -28,7 +28,10 @@ API Reference: https://brewhop-favorites-service.onrender.com/redoc
 * Stores and queries data from a PostgreSQL database running on ElephantSQL.com
 </br>
 
-<details><summary>API Design (Historical, from initial project planning)</summary>
+<details>
+<summary>
+<strong>API Design (Historical, from initial project planning)</strong>
+</summary>
 
 ### Home (/)
 * Page Overview
