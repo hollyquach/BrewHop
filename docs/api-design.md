@@ -1,5 +1,5 @@
 ## API Design
-API Design (Updated 12/12/22)
+**API Design** (Updated 12/12/22)
 *See collapse at bottom of document for initial planning API design*
 
 ### Yelp API Service
