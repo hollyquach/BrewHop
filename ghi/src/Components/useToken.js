@@ -14,8 +14,10 @@ export async function getTokenInternal() {
         const response = await fetch(url, {
             credentials: "include",
         });
+
         if (response.ok) {
             const data = await response.json();
+            console.debug(`🚦🚦 >> getTokenInternal >> response data`, data);
             internalToken = data.access_token;
             return internalToken;
         }
@@ -67,31 +69,38 @@ export const useAuthContext = () => useContext(AuthContext);
 
 
 export function useToken() {
-
     const { token, setToken } = useAuthContext();
     const navigate = useNavigate();
 
+
     useEffect(() => {
+        const loginStatus = JSON.parse(localStorage.getItem('loginStatus'));
 
         async function fetchToken() {
             const token = await getTokenInternal();
             setToken(token);
+            console.debug(`🚦🚦 >> ASYNC fetchToken >> token`, token);
         }
 
-        if (!token) {
+        if (!token && loginStatus) {
             fetchToken();
         }
 
     }, [setToken, token]);
 
+
+
     async function logout() {
         if (token) {
+            console.debug(`🚦🚦 >> logout >> token`, token);
+
             const url = `${process.env.REACT_APP_ACCOUNTS_SERVICE_API_HOST}/token`;
             await fetch(url, { method: "delete", credentials: "include" });
-            internalToken = null;
-            setToken(null);
-            navigate("/");
         }
+        internalToken = null;
+        setToken(null);
+
+        navigate("/");
     }
 
     async function login(username, password) {

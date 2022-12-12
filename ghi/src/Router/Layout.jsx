@@ -31,6 +31,7 @@ export default function Layout({
                         searchState={searchState}
                         setSearchState={setSearchState}
                         loginStatus={loginStatus}
+                        setLoginStatus={setLoginStatus}
                         userName={userName}
                         setShowLoginForm={setShowLoginForm}
                         setShowSignupForm={setShowSignupForm}
