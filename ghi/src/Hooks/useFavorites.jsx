@@ -55,7 +55,6 @@ export function useFavorites() {
             let promises = data.map(async (data) => {
                 data["name"] = await getBreweryName(data["yelp_id"])
             })
-            //!! need to await all promises before or data is incomplete
             await Promise.all(promises)
             setUserFavorites(data)
         } else {

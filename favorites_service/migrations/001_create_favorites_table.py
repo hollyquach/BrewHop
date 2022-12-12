@@ -1,6 +1,5 @@
 steps = [
     [
-        # "Up" SQL statement
         """
         CREATE TABLE favorites (
             id SERIAL PRIMARY KEY NOT NULL,
@@ -8,7 +7,6 @@ steps = [
             yelp_id VARCHAR(1000) NOT NULL
         );
         """,
-        # "Down" SQL statement
         """
         DROP TABLE favorites;
         """

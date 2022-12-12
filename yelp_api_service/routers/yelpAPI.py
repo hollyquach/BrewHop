@@ -17,8 +17,6 @@ router = APIRouter()
 api_key = os.getenv("YELP_API_KEY")
 
 # > create variables for search URL
-# Featured & Search | https://api.yelp.com/v3/businesses/search?{params}
-# Brewery | https://api.yelp.com/v3/businesses/{id}
 API_HOST = "https://api.yelp.com"
 SEARCH_PATH = "/v3/businesses/search"
 BUSINESS_PATH = "/v3/businesses/"
@@ -51,7 +49,6 @@ def getyelprequest():
 
 @router.get("/api/breweries", response_model=BreweriesListOut)
 async def get_brewery_list(
-    # search by city/state inputs from user
     city: str,
     state: str,
     yelprequestfn=Depends(getyelprequest),

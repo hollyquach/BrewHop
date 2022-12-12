@@ -11,7 +11,6 @@ const domain = /https:\/\/[^/]+/;
 const basename = process.env.PUBLIC_URL.replace(domain, '');
 
 function GetToken() {
-    // Get token from JWT cookie (if already logged in)
     getToken();
     return null
 }

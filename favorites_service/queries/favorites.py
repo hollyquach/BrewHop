@@ -29,6 +29,7 @@ class FavoriteRepository:
                         FROM favorites;
                         """
                 )
+                connection.close()
                 return [
                     FavoriteOut(
                         id=entry[0],
@@ -54,6 +55,7 @@ class FavoriteRepository:
                         """,
                     [user_id],
                 )
+                connection.close()
                 return [
                     FavoriteOut(
                         id=entry[0],
@@ -79,6 +81,7 @@ class FavoriteRepository:
                         """,
                     [favorite.user_id, favorite.yelp_id],
                 )
+                connection.close()
                 id = result.fetchone()[0]
                 old = favorite.dict()
                 return FavoriteOut(id=id, **old)
@@ -96,6 +99,7 @@ class FavoriteRepository:
                         """,
                     [id],
                 )
+                connection.close()
                 return True
         except Exception:
             return False
