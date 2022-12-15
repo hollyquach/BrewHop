@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from 'react-router';
 
 export default function Invalid() {
+    const navigate = useNavigate()
 
     return (
         <div className="App">
@@ -11,6 +13,7 @@ export default function Invalid() {
                     height="400"
                 />
                 <p>Move along - nothing to see here except Rocky!</p>
+                <button className="btn btn-secondary" onClick={() => navigate("/")}>Home</button>
             </header>
         </div>
     )

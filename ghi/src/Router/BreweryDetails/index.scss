@@ -14,7 +14,8 @@
         bottom: 46px;
 
         .fav-text {
-            display: none;
+            display: block;
+            visibility: hidden;
         }
 
         .favorite-btn {
@@ -28,6 +29,7 @@
 
         .favorite-btn:hover + .fav-text {
             display: block;
+            visibility: visible;
             animation: fadeIn 1s;
         }
 
