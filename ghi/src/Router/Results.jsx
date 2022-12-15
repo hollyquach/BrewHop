@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
+import { useNavigate } from 'react-router';
 import BreweryList from '../Components/Shared/BreweryList'
 import Pages from '../Components/Shared/Pagination'
 import '../Components/Shared/List.scss';
@@ -12,6 +13,7 @@ export default function Results({
     const [breweries, setBreweries] = useState([])
     const [currentPage, setCurrentPage] = useState(1) // -> for pagination and brewery index
     const [isLoading, setIsLoading] = useState(true)
+    const navigate = useNavigate()
     const pageSize = 5
 
 
@@ -65,6 +67,7 @@ export default function Results({
                             <div className="App-header">
                                 <h1>
                                     Missing search input - <span>please enter a city/state!</span>
+                                    <br /><button className="btn btn-secondary" onClick={() => navigate("/")}>Home</button>
                                 </h1>
                             </div>
                         </>
@@ -105,7 +108,8 @@ export default function Results({
                                     <div className="App-header">
                                         <h1>
                                             <span> Sorry, we couldn't find any breweries!</span>
-                                            Please try a different search.
+                                            <br /> Please try a different search or return home.
+                                            <br /><button className="btn btn-secondary" onClick={() => navigate("/")}>Home</button>
                                         </h1>
                                     </div>
                                 </>

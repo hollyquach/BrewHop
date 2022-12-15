@@ -11,7 +11,7 @@ export default function Empty() {
                         <h4>
                             Data has been lost, please return home.
                         </h4>
-                        <button className="btn btn-secondary" onClick={() => navigate(-1)}>Back to Search</button>
+                        <button className="btn btn-secondary" onClick={() => navigate("/")}>Home</button>
                     </div>
                 </div>
             </div>

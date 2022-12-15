@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react'
+import { useNavigate } from 'react-router';
 import BreweryList from '../Components/Shared/BreweryList'
 import Pages from '../Components/Shared/Pagination'
 import '../Components/Shared/List.scss';
@@ -13,7 +14,7 @@ export default function Favorites({
     const [isLoading, setIsLoading] = useState(true)
     const pageSize = 5
     const { userFavorites } = useFavoritesContext();
-
+    const navigate = useNavigate()
 
     //> Filters list of breweries by page number
     const currentBreweries = useMemo(() => {
@@ -38,7 +39,8 @@ export default function Favorites({
                         ? <>
                             <div className="App-header">
                                 <h1>
-                                    Please login to view <span>favorites</span>!
+                                    Please login to view <span>favorites</span>
+                                    <br/><button className="btn btn-secondary" onClick={() => navigate("/")}>Home</button>
                                 </h1>
                             </div>
                         </>
@@ -81,6 +83,7 @@ export default function Favorites({
                                             <span>
                                                 You don't have any breweries saved to favorites!
                                             </span>
+                                            <br/><button className="btn btn-secondary" onClick={() => navigate("/")}>Home</button>
                                         </h1>
                                     </div>
                                 </>

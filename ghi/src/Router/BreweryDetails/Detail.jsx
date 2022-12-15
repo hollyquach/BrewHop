@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import { useNavigate } from 'react-router';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -15,6 +16,7 @@ export default function Detail({
     userID }) {
     const [brewery, setData] = useState([]);
     const [isLoaded, setLoaded] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(() => {
         async function getBreweryDetails() {
@@ -90,6 +92,7 @@ export default function Detail({
                                             </ListGroup.Item>
                                         </ListGroup>
                                     </Card.Text>
+                                    <button className="btn btn-secondary" onClick={() => navigate(-1)}>Back</button>
                                 </Card.Body>
                             </Card>
                         </Col>
