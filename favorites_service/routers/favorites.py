@@ -48,8 +48,9 @@ def delete_favorite(
 ) -> bool:
     return repo.delete(id)
 
+
 @router.get("/boot", response_model=Union[Error, List[BootOut]])
-def get_all(
+def boot_service(
     repo: FavoriteRepository = Depends(),
 ):
     return repo.boot_service()

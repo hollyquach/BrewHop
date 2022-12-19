@@ -103,8 +103,9 @@ async def get_protected(
 ):
     return True
 
+
 @router.get("/boot", response_model=Union[Error, List[BootOut]])
-def get_all(
+def boot_service(
     repo: AccountsRepository = Depends(),
 ):
     return repo.boot_service()
