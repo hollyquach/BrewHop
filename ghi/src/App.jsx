@@ -20,7 +20,7 @@ export default function App() {
     const [breweryYelpID, setBreweryYelpID] = useSessionStorage("breweryYelpID", '')
     const [showLoginForm, setShowLoginForm] = useState(false)
     const [showSignupForm, setShowSignupForm] = useState(false)
-    const [bootStatus, setBootStatus] = useState(100)
+    const [bootStatus, setBootStatus] = useState(60)
     const { token } = useAuthContext();
     const { setUserFavorites } = useFavoritesContext();
 

@@ -67,7 +67,7 @@ export default function Layout({
                     </div>
                 </div>
                 :
-                <div className='App'>
+                <div className='App-Header'>
                     <div>
                         <Booting
                             bootStatus={bootStatus}
