@@ -18,6 +18,10 @@ class FavoriteOut(BaseModel):
     yelp_id: str
 
 
+class BootOut(BaseModel):
+    id: int
+
+
 class FavoriteRepository:
     def get_all(self) -> Union[Error, List[FavoriteOut]]:
         try:
@@ -103,3 +107,24 @@ class FavoriteRepository:
                 return True
         except Exception:
             return False
+
+    def boot_service(self) -> Union[Error, List[BootOut]]:
+        try:
+            connection = get_conn()
+            with connection.cursor() as db:
+                db.execute(
+                    """
+                        SELECT id
+                        FROM favorites
+                        LIMIT 1;
+                    """,
+                )
+                connection.close()
+                return [
+                    BootOut(
+                        id=entry[0],
+                    )
+                    for entry in db
+                ]
+        except Exception:
+            return {"message": "Trouble connecting to SQL database!"}

@@ -4,6 +4,7 @@ from queries.favorites import (
     FavoriteIn,
     FavoriteRepository,
     FavoriteOut,
+    BootOut,
     Error,
 )
 from authtoken import get_current_user
@@ -46,3 +47,9 @@ def delete_favorite(
     account_data: dict = Depends(get_current_user),
 ) -> bool:
     return repo.delete(id)
+
+@router.get("/boot", response_model=Union[Error, List[BootOut]])
+def get_all(
+    repo: FavoriteRepository = Depends(),
+):
+    return repo.boot_service()
