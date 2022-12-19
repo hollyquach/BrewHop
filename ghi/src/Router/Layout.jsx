@@ -23,6 +23,9 @@ export default function Layout({
     userID,
     setUserID,
     bootStatus,
+    favoritesBootError,
+    accountsBootError,
+    externalAPIBootError
 }) {
     return (
         <>
@@ -71,6 +74,9 @@ export default function Layout({
                     <div>
                         <Booting
                             bootStatus={bootStatus}
+                            favoritesBootError={favoritesBootError}
+                            accountsBootError={accountsBootError}
+                            externalAPIBootError={externalAPIBootError}
                         />
                     </div>
                 </div>

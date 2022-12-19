@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Modal from 'react-bootstrap/Modal';
 import LinearProgress from '@mui/material/LinearProgress';
 import Alert from 'react-bootstrap/Alert';
 
 
-export default function Booting({ bootStatus }) {
+export default function Booting({
+    bootStatus,
+    favoritesBootError,
+    accountsBootError,
+    externalAPIBootError
+}) {
+    const [loader, setLoader] = useState("");
+
+    useEffect(() => {
+        if (favoritesBootError || accountsBootError || externalAPIBootError) {
+            setLoader("d-none");
+        } else {
+            setLoader("");
+        }
+    });
+
+
     return (
         <Modal
             centered
@@ -38,9 +54,36 @@ export default function Booting({ bootStatus }) {
                         the BrewHoppers
                     </p>
                 </Alert>
-                <br />
-                <LinearProgress variant="determinate" value={bootStatus} color="inherit" />
-                <br />
+                <Alert variant="danger" show={favoritesBootError}>
+                    <p className="mb-0">
+                        There was an error loading the <strong>Favorites service</strong>.
+                        Please refresh the page and try again.
+                        If this happens again, please reach out for assistance.
+                    </p>
+                </Alert>
+                <Alert variant="danger" show={accountsBootError}>
+                    <p className="mb-0">
+                        There was an error loading the <strong>Accounts service</strong>.
+                        Please refresh the page and try again.
+                        If this happens again, please reach out for assistance.
+                    </p>
+                </Alert>
+                <Alert variant="danger" show={externalAPIBootError}>
+                    <p className="mb-0">
+                        There was an error loading the <strong>external API service</strong>.
+                        Please refresh the page and try again.
+                        If this happens again, please reach out for assistance.
+                    </p>
+                </Alert>
+                <div className={loader}>
+                    <br />
+                    <LinearProgress
+                        variant="determinate"
+                        value={bootStatus}
+                        color="inherit"
+                    />
+                    <br />
+                </div>
             </Modal.Body>
         </Modal>
     );
