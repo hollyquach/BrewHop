@@ -169,3 +169,8 @@ async def get_brewery_detail(yelp_id: str):
     result["longitude"] = result["coordinates"]["longitude"]
 
     return result
+
+
+@router.get("/api/boot")
+def boot_service():
+    return 1
