@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useLocalStorage, useSessionStorage } from 'usehooks-ts'
-import { Route, Routes } from 'react-router-dom'
+import { useLocalStorage, useSessionStorage } from 'usehooks-ts';
+import { Route, Routes } from 'react-router-dom';
 import './App.scss';
-import Featured from './Router/Featured/Featured.jsx'
-import Layout from './Router/Layout'
+import Featured from './Router/Featured/Featured.jsx';
+import Layout from './Router/Layout';
 import Results from './Router/Results';
 import Favorites from './Router/Favorites.jsx';
-import Brewery from './Router/BreweryDetails/Brewery'
+import Brewery from './Router/BreweryDetails/Brewery';
 import Invalid from './Router/Invalid.jsx';
-import { useAuthContext } from './Hooks/useToken.js'
+import { useAuthContext } from './Hooks/useToken.js';
 import { useFavoritesContext } from './Hooks/useFavorites';
 
 export default function App() {
@@ -20,6 +20,7 @@ export default function App() {
     const [breweryYelpID, setBreweryYelpID] = useSessionStorage("breweryYelpID", '')
     const [showLoginForm, setShowLoginForm] = useState(false)
     const [showSignupForm, setShowSignupForm] = useState(false)
+    const [bootStatus, setBootStatus] = useState(100)
     const { token } = useAuthContext();
     const { setUserFavorites } = useFavoritesContext();
 
@@ -49,6 +50,8 @@ export default function App() {
                     setUserName={setUserName}
                     userID={userID}
                     setUserID={setUserID}
+                    bootStatus={bootStatus}
+                    setBootStatus={setBootStatus}
                 />} >
                     <Route index element={<Featured setID={setBreweryYelpID} />} />
                     <Route path="search/" element={
