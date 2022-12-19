@@ -49,7 +49,7 @@ export default function App() {
             } else {
                 setFavoritesBootError(true)
             };
-        }, [bootStatus, setBootStatus, setFavoritesBootError])
+        }, [])
 
     useEffect(() =>
         async function bootAccounts() {
@@ -64,7 +64,7 @@ export default function App() {
             } else {
                 setAccountsBootError(true)
             };
-        }, [bootStatus, setBootStatus, setAccountsBootError])
+        }, [])
 
 
     return (
