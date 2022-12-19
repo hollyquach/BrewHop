@@ -18,7 +18,7 @@ export default function Booting({
         } else {
             setLoader("");
         }
-    });
+    },[favoritesBootError, accountsBootError, externalAPIBootError]);
 
 
     return (

@@ -20,7 +20,7 @@ export default function App() {
     const [breweryYelpID, setBreweryYelpID] = useSessionStorage("breweryYelpID", '')
     const [showLoginForm, setShowLoginForm] = useState(false)
     const [showSignupForm, setShowSignupForm] = useState(false)
-    const [bootStatus, setBootStatus] = useState(50)
+    const [bootStatus, setBootStatus] = useSessionStorage("bootStatus", 0)
     const [favoritesBootError, setFavoritesBootError] = useState(false)
     const [accountsBootError, setAccountsBootError] = useState(false)
     const [externalAPIBootError, setExternalAPIBootError] = useState(false)
@@ -36,33 +36,35 @@ export default function App() {
         }
     }, [token, setUserID, setUserName, setLoginStatus, setUserFavorites]);
 
-    const bootFavorites = async () => {
-        setBootStatus(bootStatus + 10);
-        const bootFavoritesURL = `${process.env.REACT_APP_FAVORITES_SERVICE_API_HOST}/boot`;
-        let bootFavoritesResponse = await fetch(bootFavoritesURL);
-        setBootStatus(bootStatus + 10);
-        if (bootFavoritesResponse.ok) {
-            let bootFavoritesData = await bootFavoritesResponse.json();
-            bootFavoritesData === [] || bootFavoritesData.length > 0 ?
-                setBootStatus(bootStatus + 10) : setFavoritesBootError(true);
-        } else {
-            setFavoritesBootError(true)
-        };
-    };
+    useEffect(() =>
+        async function bootFavorites() {
+            setBootStatus(bootStatus + 10);
+            const bootFavoritesURL = `${process.env.REACT_APP_FAVORITES_SERVICE_API_HOST}/boot`;
+            let bootFavoritesResponse = await fetch(bootFavoritesURL);
+            setBootStatus(bootStatus + 10);
+            if (bootFavoritesResponse.ok) {
+                let bootFavoritesData = await bootFavoritesResponse.json();
+                bootFavoritesData === [] || bootFavoritesData.length > 0 ?
+                    setBootStatus(bootStatus + 10) : setFavoritesBootError(true);
+            } else {
+                setFavoritesBootError(true)
+            };
+        }, [bootStatus, setBootStatus, setFavoritesBootError])
 
-    const bootAccounts = async () => {
-        setBootStatus(bootStatus + 10);
-        const bootAccountsURL = `${process.env.REACT_APP_ACCOUNTS_SERVICE_API_HOST}/boot`;
-        let bootAccountsResponse = await fetch(bootAccountsURL);
-        setBootStatus(bootStatus + 10);
-        if (bootAccountsResponse.ok) {
-            let bootAccountsData = await bootAccountsResponse.json();
-            bootAccountsData === [] || bootAccountsData.length > 0 ?
-                setBootStatus(bootStatus + 10) : setAccountsBootError(true);
-        } else {
-            setAccountsBootError(true)
-        };
-    };
+    useEffect(() =>
+        async function bootAccounts() {
+            setBootStatus(bootStatus + 10);
+            const bootAccountsURL = `${process.env.REACT_APP_ACCOUNTS_SERVICE_API_HOST}/boot`;
+            let bootAccountsResponse = await fetch(bootAccountsURL);
+            setBootStatus(bootStatus + 10);
+            if (bootAccountsResponse.ok) {
+                let bootAccountsData = await bootAccountsResponse.json();
+                bootAccountsData === [] || bootAccountsData.length > 0 ?
+                    setBootStatus(bootStatus + 10) : setAccountsBootError(true);
+            } else {
+                setAccountsBootError(true)
+            };
+        }, [bootStatus, setBootStatus, setAccountsBootError])
 
 
     return (
