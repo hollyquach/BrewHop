@@ -12,6 +12,7 @@ from queries.accounts import (
     AccountsRepository,
     Error,
     DuplicateAccountError,
+    BootOut
 )
 from typing import Union, List, Optional
 from jwtdown_fastapi.authentication import Token
@@ -101,3 +102,9 @@ async def get_protected(
     accounts_data: dict = Depends(authenticator.try_get_current_account_data),
 ):
     return True
+
+@router.get("/boot", response_model=Union[Error, List[BootOut]])
+def get_all(
+    repo: AccountsRepository = Depends(),
+):
+    return repo.boot_service()

@@ -37,6 +37,10 @@ class DuplicateAccountError(ValueError):
     pass
 
 
+class BootOut(BaseModel):
+    id: int
+
+
 class AccountsRepository:
     def get_one(self, email: str) -> Optional[Accounts]:
         try:
@@ -143,3 +147,24 @@ class AccountsRepository:
                 return True
         except Exception:
             return False
+
+    def boot_service(self) -> Union[Error, List[BootOut]]:
+        try:
+            connection = get_conn()
+            with connection.cursor() as db:
+                db.execute(
+                    """
+                        SELECT id
+                        FROM accounts
+                        LIMIT 1;
+                    """,
+                )
+                connection.close()
+                return [
+                    BootOut(
+                        id=entry[0],
+                    )
+                    for entry in db
+                ]
+        except Exception:
+            return {"message": "Trouble connecting to SQL database!"}
