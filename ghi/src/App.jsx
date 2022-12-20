@@ -66,6 +66,21 @@ export default function App() {
             };
         }, [])
 
+    useEffect(() =>
+        async function bootExternalAPI() {
+            setBootStatus(bootStatus + 10);
+            const bootExternalAPIURL = `${process.env.REACT_APP_YELP_API_SERVICE_API_HOST}/api/boot`;
+            let bootExternalAPIResponse = await fetch(bootExternalAPIURL);
+            setBootStatus(bootStatus + 10);
+            if (bootExternalAPIResponse.ok) {
+                let bootExternalAPIData = await bootExternalAPIResponse.json();
+                bootExternalAPIData === 1 ?
+                    setBootStatus(bootStatus + 10) : setExternalAPIBootError(true);
+            } else {
+                setExternalAPIBootError(true)
+            };
+        }, [])
+
 
     return (
         <div>
